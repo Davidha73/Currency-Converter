@@ -1,69 +1,156 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GBP ↔ EUR Currency Converter</title>
-  <style>
-    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; }
-    input, select, button { width: 100%; padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GBP/EUR Currency Converter</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for Inter font and general body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            margin: 0;
+            padding: 1rem; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        /* Ensure the main container doesn't overflow on very small screens */
+        .container {
+            max-width: 100%;
+        }
+    </style>
 </head>
-<body>
-  <h2>GBP ↔ EUR Converter</h2>
+<body class="antialiased">
+    <div class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Currency Converter</h1>
 
-  <input type="number" id="amount" placeholder="Enter amount" />
-  <select id="direction">
-    <option value="GBPtoEUR">GBP → EUR</option>
-    <option value="EURtoGBP">EUR → GBP</option>
-  </select>
+        <!-- Input Amount Section -->
+        <div class="mb-5">
+            <label for="amount" class="block text-gray-700 text-sm font-medium mb-2">Amount:</label>
+            <input type="number" id="amount" value="1.00" min="0" step="0.01"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+        </div>
 
-  <button onclick="convert()">Convert</button>
+        <!-- Currency Selection Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="fromCurrency" class="block text-gray-700 text-sm font-medium mb-2">From:</label>
+                <select id="fromCurrency"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="EUR">EUR - Euro</option>
+                </select>
+            </div>
+            <div>
+                <label for="toCurrency" class="block text-gray-700 text-sm font-medium mb-2">To:</label>
+                <select id="toCurrency"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                </select>
+            </div>
+        </div>
 
-  <p id="result"></p>
+        <!-- Convert Button -->
+        <button id="convertBtn"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg shadow-md">
+            Convert
+        </button>
 
-  <script>
-    async function convert() {
-      const amount = parseFloat(document.getElementById('amount').value);
-      const direction = document.getElementById('direction').value;
-      const resultElem = document.getElementById('result');
+        <!-- Result Display Section -->
+        <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+            <p class="text-lg text-gray-700 font-semibold">Converted Amount:</p>
+            <p id="result" class="text-3xl font-extrabold text-blue-800 mt-2">0.00 EUR</p>
+        </div>
 
-      if (isNaN(amount) || amount <= 0) {
-        resultElem.textContent = "Please enter a valid amount.";
-        return;
-      }
+        <!-- Message Box for Alerts -->
+        <div id="messageBox" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center" role="alert">
+            <span id="messageText"></span>
+            <button class="ml-4 text-red-700 font-bold" onclick="document.getElementById('messageBox').classList.add('hidden');">&times;</button>
+        </div>
+    </div>
 
-      try {
-        const url = direction === 'GBPtoEUR'
-          ? 'https://api.exchangerate.host/latest?base=GBP&symbols=EUR'
-          : 'https://api.exchangerate.host/latest?base=EUR&symbols=GBP';
+    <script>
+        // Get references to HTML elements
+        const amountInput = document.getElementById('amount');
+        const fromCurrencySelect = document.getElementById('fromCurrency');
+        const toCurrencySelect = document.getElementById('toCurrency');
+        const convertButton = document.getElementById('convertBtn');
+        const resultDisplay = document.getElementById('result');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
 
-        const res = await fetch(url);
-        const data = await res.json();
+        // Define the exchange rate (1 GBP to EUR)
+        // Note: In a real-world application, this would be fetched from a live API.
+        const GBP_TO_EUR_RATE = 1.16; // Example rate as of July 9, 2025
 
-        let rate;
-        if (direction === 'GBPtoEUR') {
-          rate = data.rates?.EUR;
-        } else {
-          rate = data.rates?.GBP;
+        /**
+         * Displays a message in the message box.
+         * @param {string} message - The message to display.
+         * @param {string} type - The type of message ('error', 'success', 'info').
+         */
+        function showMessage(message, type = 'info') {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+            // Reset classes
+            messageBox.classList.remove('bg-red-100', 'border-red-400', 'text-red-700', 'bg-green-100', 'border-green-400', 'text-green-700', 'bg-blue-100', 'border-blue-400', 'text-blue-700');
+
+            if (type === 'error') {
+                messageBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+            } else if (type === 'success') {
+                messageBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+            } else { // info
+                messageBox.classList.add('bg-blue-100', 'border-blue-400', 'text-blue-700');
+            }
         }
 
-        if (!rate) {
-          resultElem.textContent = "Could not retrieve exchange rate.";
-          return;
+        /**
+         * Performs the currency conversion.
+         */
+        function convertCurrency() {
+            messageBox.classList.add('hidden'); // Hide any previous messages
+
+            const amount = parseFloat(amountInput.value);
+            const fromCurrency = fromCurrencySelect.value;
+            const toCurrency = toCurrencySelect.value;
+
+            // Validate input amount
+            if (isNaN(amount) || amount <= 0) {
+                showMessage("Please enter a valid positive amount.", "error");
+                resultDisplay.textContent = "0.00 " + toCurrency; // Reset result display
+                return;
+            }
+
+            let convertedAmount;
+
+            if (fromCurrency === "GBP" && toCurrency === "EUR") {
+                convertedAmount = amount * GBP_TO_EUR_RATE;
+            } else if (fromCurrency === "EUR" && toCurrency === "GBP") {
+                convertedAmount = amount / GBP_TO_EUR_RATE;
+            } else if (fromCurrency === toCurrency) {
+                convertedAmount = amount; // No conversion needed if currencies are the same
+                showMessage(`Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`, "info");
+            } else {
+                // This case should ideally not be reached with only GBP/EUR options
+                showMessage("Unsupported currency conversion.", "error");
+                resultDisplay.textContent = "Error";
+                return;
+            }
+
+            // Display the result, formatted to 2 decimal places
+            resultDisplay.textContent = `${convertedAmount.toFixed(2)} ${toCurrency}`;
         }
 
-        const converted = amount * rate;
-        if (direction === 'GBPtoEUR') {
-          resultElem.textContent = `${amount} GBP ≈ ${converted.toFixed(2)} EUR (Rate: ${rate.toFixed(4)})`;
-        } else {
-          resultElem.textContent = `${amount} EUR ≈ ${converted.toFixed(2)} GBP (Rate: ${rate.toFixed(4)})`;
-        }
-      } catch (error) {
-        console.error(error);
-        resultElem.textContent = "Error fetching exchange rate. Please try again later.";
-      }
-    }
-  </script>
+        // Event listener for the convert button
+        convertButton.addEventListener('click', convertCurrency);
+
+        // Initial conversion on page load with default values
+        document.addEventListener('DOMContentLoaded', convertCurrency);
+    </script>
 </body>
 </html>
