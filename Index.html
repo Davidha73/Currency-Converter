@@ -1,9 +1,16 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GBP/EUR Currency Converter</title>
+    <title>Live GBP/EUR Converter PWA</title>
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Apple Touch Icon (for iOS home screen) -->
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <!-- Theme color for browser UI -->
+    <meta name="theme-color" content="#2563EB"/>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -23,11 +30,37 @@
         .container {
             max-width: 100%;
         }
+        /* Simple loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="antialiased">
     <div class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200">
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Currency Converter</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Live Currency Converter</h1>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="text-center text-blue-600 mb-4 hidden">
+            <span class="loader"></span> Fetching live rates...
+        </div>
+
+        <!-- Live Rate Display -->
+        <div id="liveRateDisplay" class="text-center text-gray-600 text-sm mb-4">
+            Current Rate: 1 GBP = <span id="currentRateValue" class="font-semibold">N/A</span> EUR
+        </div>
 
         <!-- Input Amount Section -->
         <div class="mb-5">
@@ -84,10 +117,15 @@
         const resultDisplay = document.getElementById('result');
         const messageBox = document.getElementById('messageBox');
         const messageText = document.getElementById('messageText');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const currentRateValueSpan = document.getElementById('currentRateValue'); // New element
 
-        // Define the exchange rate (1 GBP to EUR)
-        // Note: In a real-world application, this would be fetched from a live API.
-        const GBP_TO_EUR_RATE = 1.16; // Example rate as of July 9, 2025
+        // Global variable for the exchange rate
+        let GBP_TO_EUR_RATE = 1.16; // Default/fallback rate
+
+        // IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from exchangerate-api.com
+        const API_KEY = '927c24338aac7c729fb14ee6';
+        const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
 
         /**
          * Displays a message in the message box.
@@ -110,10 +148,43 @@
         }
 
         /**
+         * Fetches the live exchange rate from the API.
+         */
+        async function fetchExchangeRate() {
+            loadingIndicator.classList.remove('hidden'); // Show loading indicator
+            messageBox.classList.add('hidden'); // Hide any previous messages
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${errorData.error_type || response.statusText}`);
+                }
+                const data = await response.json();
+                if (data.result === 'success') {
+                    GBP_TO_EUR_RATE = data.conversion_rate;
+                    console.log('Live GBP to EUR rate fetched:', GBP_TO_EUR_RATE);
+                    currentRateValueSpan.textContent = GBP_TO_EUR_RATE.toFixed(4); // Update the displayed rate
+                    showMessage(`Live rate updated: 1 GBP = ${GBP_TO_EUR_RATE.toFixed(4)} EUR`, 'success');
+                } else {
+                    throw new Error(`API returned an error: ${data.result}`);
+                }
+            } catch (error) {
+                console.error('Error fetching exchange rate:', error);
+                currentRateValueSpan.textContent = 'N/A'; // Indicate rate not available
+                showMessage(`Could not fetch live rates. Using default rate (${GBP_TO_EUR_RATE.toFixed(4)}). Error: ${error.message}`, 'error');
+            } finally {
+                loadingIndicator.classList.add('hidden'); // Hide loading indicator
+                convertCurrency(); // Perform initial conversion with fetched/default rate
+            }
+        }
+
+        /**
          * Performs the currency conversion.
          */
         function convertCurrency() {
-            messageBox.classList.add('hidden'); // Hide any previous messages
+            // Do not hide message box here, as fetchExchangeRate might have just shown one.
+            // messageBox.classList.add('hidden');
 
             const amount = parseFloat(amountInput.value);
             const fromCurrency = fromCurrencySelect.value;
@@ -134,7 +205,10 @@
                 convertedAmount = amount / GBP_TO_EUR_RATE;
             } else if (fromCurrency === toCurrency) {
                 convertedAmount = amount; // No conversion needed if currencies are the same
-                showMessage(`Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`, "info");
+                // Only show info message if it's not already showing an error from rate fetch
+                if (messageBox.classList.contains('hidden')) {
+                     showMessage(`Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`, "info");
+                }
             } else {
                 // This case should ideally not be reached with only GBP/EUR options
                 showMessage("Unsupported currency conversion.", "error");
@@ -149,8 +223,21 @@
         // Event listener for the convert button
         convertButton.addEventListener('click', convertCurrency);
 
-        // Initial conversion on page load with default values
-        document.addEventListener('DOMContentLoaded', convertCurrency);
+        // Initial fetch and conversion on page load
+        document.addEventListener('DOMContentLoaded', fetchExchangeRate);
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
