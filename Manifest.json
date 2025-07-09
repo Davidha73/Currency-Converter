@@ -33,7 +33,7 @@
             "type": "image/png"
         },
         {
-            "src": "https://placehold.co/192x192/2563EB/ffffff?text=%C2%A3%E2%86%94%E2%82%AC",
+            "src": "/icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
