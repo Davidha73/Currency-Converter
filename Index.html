@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GBP ↔ EUR Currency Converter</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; }
+    input, select, button { width: 100%; padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h2>GBP ↔ EUR Converter</h2>
+
+  <input type="number" id="amount" placeholder="Enter amount" />
+  <select id="direction">
+    <option value="GBPtoEUR">GBP → EUR</option>
+    <option value="EURtoGBP">EUR → GBP</option>
+  </select>
+
+  <button onclick="convert()">Convert</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function convert() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const direction = document.getElementById('direction').value;
+      const resultElem = document.getElementById('result');
+
+      if (isNaN(amount) || amount <= 0) {
+        resultElem.textContent = "Please enter a valid amount.";
+        return;
+      }
+
+      try {
+        const url = direction === 'GBPtoEUR'
+          ? 'https://api.exchangerate.host/latest?base=GBP&symbols=EUR'
+          : 'https://api.exchangerate.host/latest?base=EUR&symbols=GBP';
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        let rate;
+        if (direction === 'GBPtoEUR') {
+          rate = data.rates?.EUR;
+        } else {
+          rate = data.rates?.GBP;
+        }
+
+        if (!rate) {
+          resultElem.textContent = "Could not retrieve exchange rate.";
+          return;
+        }
+
+        const converted = amount * rate;
+        if (direction === 'GBPtoEUR') {
+          resultElem.textContent = `${amount} GBP ≈ ${converted.toFixed(2)} EUR (Rate: ${rate.toFixed(4)})`;
+        } else {
+          resultElem.textContent = `${amount} EUR ≈ ${converted.toFixed(2)} GBP (Rate: ${rate.toFixed(4)})`;
+        }
+      } catch (error) {
+        console.error(error);
+        resultElem.textContent = "Error fetching exchange rate. Please try again later.";
+      }
+    }
+  </script>
+</body>
+</html>
