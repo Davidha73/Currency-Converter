@@ -1,0 +1,1 @@
+Sitemap:https://kaz-currency-converter.netlify.app/sitemap.xml
