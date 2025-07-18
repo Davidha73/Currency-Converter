@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kaz-currency-converter.netlify.app/Sitemap.xml
-
+Sitemap: https://kaz-currency-converter.netlify.app/sitemap.xml

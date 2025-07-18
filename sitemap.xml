@@ -3,13 +3,12 @@
   <!-- Homepage -->
   <url>
     <loc>https://kaz-currency-converter.netlify.app/</loc>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- Additional URLs can be added below -->
-  <!--
+  <!-- About Page -->
   <url>
-    <loc>https://your-domain.com/page1</loc>
+    <loc>https://kaz-currency-converter.netlify.app/about.html</loc>
     <priority>0.8</priority>
   </url>
-  -->
 </urlset>

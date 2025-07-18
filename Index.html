@@ -1,275 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-BR9D7E8713');
-</script>
-    <meta name="google-site-verification" content="20-U9Ao1kMNfy1XUvNZZzcgx8sNvmF_Pr65xhU6A81U" />
-    <meta charset="UTF-8">
-    <meta name="description" content="Currency Converter is a plain and simple converter between Euros and GBP">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live GBP/EUR Converter PWA</title>
+      gtag("config", "G-BR9D7E8713");
+    </script>
+    <meta
+      name="google-site-verification"
+      content="20-U9Ao1kMNfy1XUvNZZzcgx8sNvmF_Pr65xhU6A81U"
+    />
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Currency Converter is a plain and simple converter between Euros and GBP"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live GBP/EUR Converter</title>
     <!-- Web App Manifest -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json" />
     <!-- Apple Touch Icon (for iOS home screen) -->
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
     <!-- Favicon -->
-    <link rel="icon" href="/icons/favicon-64x64.ico">
+    <link rel="icon" href="/icons/favicon-64x64.ico" />
     <!-- Theme color for browser UI -->
-    <meta name="theme-color" content="#2563EB"/>
+    <meta name="theme-color" content="#2563EB" />
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for Inter font and general body styling */
-        body {
-            overflow:hidden;
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Ensure it takes full viewport height */
-            margin: 0;
-            padding: 1rem; /* Add some padding for smaller screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+      /* Custom styles for Inter font and general body styling */
+      body {
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+        background-color: #f0f2f5; /* Light gray background */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Ensure it takes full viewport height */
+        margin: 0;
+        padding: 1rem; /* Add some padding for smaller screens */
+        box-sizing: border-box; /* Include padding in element's total width and height */
+      }
+      /* Ensure the main container doesn't overflow on very small screens */
+      .container {
+        max-width: 100%;
+      }
+      /* Simple loading spinner */
+      .loader {
+        border: 4px solid #f3f3f3; /* Light grey */
+        border-top: 4px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 8px;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        /* Ensure the main container doesn't overflow on very small screens */
-        .container {
-            max-width: 100%;
+        100% {
+          transform: rotate(360deg);
         }
-        /* Simple loading spinner */
-        .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 8px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      }
     </style>
-</head>
-<body class="antialiased">
-    <div class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200">
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center">
-            <img src="/icons/icon-192x192.png" alt="icon" class="w-8 h-8 mr-2">
-            Live Currency Converter
-        </h1>
+  </head>
+  <body class="antialiased">
+    <div
+      class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200"
+    >
+      <h1
+        class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center"
+      >
+        <img src="/icons/icon-192x192.png" alt="icon" class="w-8 h-8 mr-2" />
+        Live Currency Converter
+      </h1>
 
-        <!-- Loading Indicator -->
-        <div id="loadingIndicator" class="text-center text-blue-600 mb-4 hidden">
-            <span class="loader"></span> Fetching live rates...
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="text-center text-blue-600 mb-4 hidden">
+        <span class="loader"></span> Fetching live rates...
+      </div>
+
+      <!-- Live Rate Display -->
+      <div id="liveRateDisplay" class="text-center text-gray-600 text-sm mb-4">
+        Current Rate: 1 GBP =
+        <span id="currentRateValue" class="font-semibold">N/A</span> EUR
+      </div>
+
+      <!-- Input Amount Section -->
+      <div class="mb-5">
+        <label for="amount" class="block text-gray-700 text-sm font-medium mb-2"
+          >Amount:</label
+        >
+        <input
+          type="text"
+          inputmode="decimal"
+          pattern="[0-9]*(\.|,)[0-9]*"
+          id="amount"
+          value="1.00"
+          min="0"
+          step="0.01"
+          onclick="this.value=''"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+        />
+      </div>
+
+      <!-- Currency Selection Section -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label
+            for="fromCurrency"
+            class="block text-gray-700 text-sm font-medium mb-2"
+            >From:</label
+          >
+          <select
+            id="fromCurrency"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+          >
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound</option>
+          </select>
         </div>
-
-        <!-- Live Rate Display -->
-        <div id="liveRateDisplay" class="text-center text-gray-600 text-sm mb-4">
-            Current Rate: 1 GBP = <span id="currentRateValue" class="font-semibold">N/A</span> EUR
+        <div>
+          <label
+            for="toCurrency"
+            class="block text-gray-700 text-sm font-medium mb-2"
+            >To:</label
+          >
+          <select
+            id="toCurrency"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+          >
+            <option value="GBP">GBP - British Pound</option>
+            <option value="EUR">EUR - Euro</option>
+          </select>
         </div>
+      </div>
 
-        <!-- Input Amount Section -->
-        <div class="mb-5">
-            <label for="amount" class="block text-gray-700 text-sm font-medium mb-2">Amount:</label>
-            <input type="text" inputmode="decimal" pattern="[0-9]*(\.|,)[0-9]*" id="amount" value="1.00" min="0" step="0.01" onclick="this.value=''"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
-        </div>
+      <!-- Convert Button -->
+      <button
+        id="convertBtn"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg shadow-md"
+      >
+        Convert
+      </button>
 
-        <!-- Currency Selection Section -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div>
-                <label for="fromCurrency" class="block text-gray-700 text-sm font-medium mb-2">From:</label>
-                <select id="fromCurrency"
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
-                    <option value="EUR">EUR - Euro</option>
-                    <option value="GBP">GBP - British Pound</option>
-                </select>
-            </div>
-            <div>
-                <label for="toCurrency" class="block text-gray-700 text-sm font-medium mb-2">To:</label>
-                <select id="toCurrency"
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
-                    <option value="GBP">GBP - British Pound</option>
-                    <option value="EUR">EUR - Euro</option>
-                </select>
-            </div>
-        </div>
+      <!-- Result Display Section -->
+      <div
+        class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center"
+      >
+        <p class="text-lg text-gray-700 font-semibold">Converted Amount:</p>
+        <p id="result" class="text-3xl font-extrabold text-blue-800 mt-2">
+          0.00 EUR
+        </p>
+      </div>
 
-        <!-- Convert Button -->
-        <button id="convertBtn"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg shadow-md">
-            Convert
+      <!-- Message Box for Alerts -->
+      <div
+        id="messageBox"
+        class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center"
+        role="alert"
+      >
+        <span id="messageText"></span>
+        <button
+          class="ml-4 text-red-700 font-bold"
+          onclick="document.getElementById('messageBox').classList.add('hidden');"
+        >
+          &times;
         </button>
+      </div>
+    </div>
 
-        <!-- Result Display Section -->
-        <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-            <p class="text-lg text-gray-700 font-semibold">Converted Amount:</p>
-            <p id="result" class="text-3xl font-extrabold text-blue-800 mt-2">0.00 EUR</p>
-        </div>
-
-        <!-- Message Box for Alerts -->
-        <div id="messageBox" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center" role="alert">
-            <span id="messageText"></span>
-            <button class="ml-4 text-red-700 font-bold" onclick="document.getElementById('messageBox').classList.add('hidden');">&times;</button>
-        </div>
+    <div class="text-center text-sm text-gray-500 mt-4">
+      <a href="about.html" class="hover:underline">About</a>
     </div>
 
     <script>
-        // Get references to HTML elements
-        const amountInput = document.getElementById('amount');
-        const fromCurrencySelect = document.getElementById('fromCurrency');
-        const toCurrencySelect = document.getElementById('toCurrency');
-        const convertButton = document.getElementById('convertBtn');
-        const resultDisplay = document.getElementById('result');
-        const messageBox = document.getElementById('messageBox');
-        const messageText = document.getElementById('messageText');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const currentRateValueSpan = document.getElementById('currentRateValue'); // New element
+      // Get references to HTML elements
+      const amountInput = document.getElementById("amount");
+      const fromCurrencySelect = document.getElementById("fromCurrency");
+      const toCurrencySelect = document.getElementById("toCurrency");
+      const convertButton = document.getElementById("convertBtn");
+      const resultDisplay = document.getElementById("result");
+      const messageBox = document.getElementById("messageBox");
+      const messageText = document.getElementById("messageText");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      const currentRateValueSpan = document.getElementById("currentRateValue"); // New element
 
-        // Global variable for the exchange rate
-        let GBP_TO_EUR_RATE = 1.16; // Default/fallback rate
+      // Global variable for the exchange rate
+      let GBP_TO_EUR_RATE = 1.16; // Default/fallback rate
 
-        // IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from exchangerate-api.com
-        const API_KEY = '927c24338aac7c729fb14ee6';
-        const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
+      // IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from exchangerate-api.com
+      const API_KEY = "927c24338aac7c729fb14ee6";
+      const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
 
-        /**
-         * Displays a message in the message box.
-         * @param {string} message - The message to display.
-         * @param {string} type - The type of message ('error', 'success', 'info').
-         */
-        function showMessage(message, type = 'info') {
-            messageText.textContent = message;
-            messageBox.classList.remove('hidden');
-            // Reset classes
-            messageBox.classList.remove('bg-red-100', 'border-red-400', 'text-red-700', 'bg-green-100', 'border-green-400', 'text-green-700', 'bg-blue-100', 'border-blue-400', 'text-blue-700');
+      /**
+       * Displays a message in the message box.
+       * @param {string} message - The message to display.
+       * @param {string} type - The type of message ('error', 'success', 'info').
+       */
+      function showMessage(message, type = "info") {
+        messageText.textContent = message;
+        messageBox.classList.remove("hidden");
+        // Reset classes
+        messageBox.classList.remove(
+          "bg-red-100",
+          "border-red-400",
+          "text-red-700",
+          "bg-green-100",
+          "border-green-400",
+          "text-green-700",
+          "bg-blue-100",
+          "border-blue-400",
+          "text-blue-700"
+        );
 
-            if (type === 'error') {
-                messageBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
-            } else if (type === 'success') {
-                messageBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
-            } else { // info
-                messageBox.classList.add('bg-blue-100', 'border-blue-400', 'text-blue-700');
-            }
+        if (type === "error") {
+          messageBox.classList.add(
+            "bg-red-100",
+            "border-red-400",
+            "text-red-700"
+          );
+        } else if (type === "success") {
+          messageBox.classList.add(
+            "bg-green-100",
+            "border-green-400",
+            "text-green-700"
+          );
+        } else {
+          // info
+          messageBox.classList.add(
+            "bg-blue-100",
+            "border-blue-400",
+            "text-blue-700"
+          );
+        }
+      }
+
+      /**
+       * Fetches the live exchange rate from the API.
+       */
+      async function fetchExchangeRate() {
+        const lastFetchTime = localStorage.getItem("lastFetchTime");
+        const cachedRate = localStorage.getItem("cachedRate");
+        const now = new Date().getTime();
+
+        if (
+          lastFetchTime &&
+          cachedRate &&
+          now - lastFetchTime < 12 * 60 * 60 * 1000
+        ) {
+          // 12 hour in milliseconds
+          GBP_TO_EUR_RATE = parseFloat(cachedRate);
+          console.log("Using cached GBP to EUR rate:", GBP_TO_EUR_RATE);
+          currentRateValueSpan.textContent = GBP_TO_EUR_RATE.toFixed(4);
+          showMessage(
+            `Using cached rate. Last updated less than 12 hours ago.`,
+            "info"
+          );
+          convertCurrency();
+          return;
         }
 
-        /**
-         * Fetches the live exchange rate from the API.
-         */
-        async function fetchExchangeRate() {
-            const lastFetchTime = localStorage.getItem('lastFetchTime');
-            const cachedRate = localStorage.getItem('cachedRate');
-            const now = new Date().getTime();
+        loadingIndicator.classList.remove("hidden"); // Show loading indicator
+        messageBox.classList.add("hidden"); // Hide any previous messages
 
-            if (lastFetchTime && cachedRate && (now - lastFetchTime < 3600000)) { // 1 hour in milliseconds
-                GBP_TO_EUR_RATE = parseFloat(cachedRate);
-                console.log('Using cached GBP to EUR rate:', GBP_TO_EUR_RATE);
-                currentRateValueSpan.textContent = GBP_TO_EUR_RATE.toFixed(4);
-                showMessage(`Using cached rate. Last updated less than an hour ago.`, 'info');
-                convertCurrency();
-                return;
-            }
+        try {
+          const response = await fetch(API_URL);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              `API Error: ${errorData.error_type || response.statusText}`
+            );
+          }
+          const data = await response.json();
+          if (data.result === "success") {
+            GBP_TO_EUR_RATE = data.conversion_rate;
+            localStorage.setItem("cachedRate", GBP_TO_EUR_RATE);
+            localStorage.setItem("lastFetchTime", now);
+            console.log(
+              "Live GBP to EUR rate fetched and cached:",
+              GBP_TO_EUR_RATE
+            );
+            currentRateValueSpan.textContent = GBP_TO_EUR_RATE.toFixed(4); // Update the displayed rate
+            showMessage(
+              `Live rate updated: 1 GBP = ${GBP_TO_EUR_RATE.toFixed(4)} EUR`,
+              "success"
+            );
+          } else {
+            throw new Error(`API returned an error: ${data.result}`);
+          }
+        } catch (error) {
+          console.error("Error fetching exchange rate:", error);
+          currentRateValueSpan.textContent = "N/A"; // Indicate rate not available
+          showMessage(
+            `Could not fetch live rates. Using default rate (${GBP_TO_EUR_RATE.toFixed(
+              4
+            )}). Error: ${error.message}`,
+            "error"
+          );
+        } finally {
+          loadingIndicator.classList.add("hidden"); // Hide loading indicator
+          convertCurrency(); // Perform initial conversion with fetched/default rate
+        }
+      }
 
-            loadingIndicator.classList.remove('hidden'); // Show loading indicator
-            messageBox.classList.add('hidden'); // Hide any previous messages
+      /**
+       * Performs the currency conversion.
+       */
+      function convertCurrency() {
+        // Do not hide message box here, as fetchExchangeRate might have just shown one.
+        // messageBox.classList.add('hidden');
 
-            try {
-                const response = await fetch(API_URL);
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`API Error: ${errorData.error_type || response.statusText}`);
-                }
-                const data = await response.json();
-                if (data.result === 'success') {
-                    GBP_TO_EUR_RATE = data.conversion_rate;
-                    localStorage.setItem('cachedRate', GBP_TO_EUR_RATE);
-                    localStorage.setItem('lastFetchTime', now);
-                    console.log('Live GBP to EUR rate fetched and cached:', GBP_TO_EUR_RATE);
-                    currentRateValueSpan.textContent = GBP_TO_EUR_RATE.toFixed(4); // Update the displayed rate
-                    showMessage(`Live rate updated: 1 GBP = ${GBP_TO_EUR_RATE.toFixed(4)} EUR`, 'success');
-                } else {
-                    throw new Error(`API returned an error: ${data.result}`);
-                }
-            } catch (error) {
-                console.error('Error fetching exchange rate:', error);
-                currentRateValueSpan.textContent = 'N/A'; // Indicate rate not available
-                showMessage(`Could not fetch live rates. Using default rate (${GBP_TO_EUR_RATE.toFixed(4)}). Error: ${error.message}`, 'error');
-            } finally {
-                loadingIndicator.classList.add('hidden'); // Hide loading indicator
-                convertCurrency(); // Perform initial conversion with fetched/default rate
-            }
+        const amount = parseFloat(amountInput.value);
+        const fromCurrency = fromCurrencySelect.value;
+        const toCurrency = toCurrencySelect.value;
+
+        // Validate input amount
+        if (isNaN(amount) || amount <= 0) {
+          showMessage("Please enter a valid positive amount.", "error");
+          resultDisplay.textContent = "0.00 " + toCurrency; // Reset result display
+          return;
         }
 
-        /**
-         * Performs the currency conversion.
-         */
-        function convertCurrency() {
-            // Do not hide message box here, as fetchExchangeRate might have just shown one.
-            // messageBox.classList.add('hidden');
+        let convertedAmount;
 
-            const amount = parseFloat(amountInput.value);
-            const fromCurrency = fromCurrencySelect.value;
-            const toCurrency = toCurrencySelect.value;
-
-            // Validate input amount
-            if (isNaN(amount) || amount <= 0) {
-                showMessage("Please enter a valid positive amount.", "error");
-                resultDisplay.textContent = "0.00 " + toCurrency; // Reset result display
-                return;
-            }
-
-            let convertedAmount;
-
-            if (fromCurrency === "GBP" && toCurrency === "EUR") {
-                convertedAmount = amount * GBP_TO_EUR_RATE;
-            } else if (fromCurrency === "EUR" && toCurrency === "GBP") {
-                convertedAmount = amount / GBP_TO_EUR_RATE;
-            } else if (fromCurrency === toCurrency) {
-                convertedAmount = amount; // No conversion needed if currencies are the same
-                // Only show info message if it's not already showing an error from rate fetch
-                if (messageBox.classList.contains('hidden')) {
-                     showMessage(`Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`, "info");
-                }
-            } else {
-                // This case should ideally not be reached with only GBP/EUR options
-                showMessage("Unsupported currency conversion.", "error");
-                resultDisplay.textContent = "Error";
-                return;
-            }
-
-            // Display the result, formatted to 2 decimal places
-            resultDisplay.textContent = `${convertedAmount.toFixed(2)} ${toCurrency}`;
+        if (fromCurrency === "GBP" && toCurrency === "EUR") {
+          convertedAmount = amount * GBP_TO_EUR_RATE;
+        } else if (fromCurrency === "EUR" && toCurrency === "GBP") {
+          convertedAmount = amount / GBP_TO_EUR_RATE;
+        } else if (fromCurrency === toCurrency) {
+          convertedAmount = amount; // No conversion needed if currencies are the same
+          // Only show info message if it's not already showing an error from rate fetch
+          if (messageBox.classList.contains("hidden")) {
+            showMessage(
+              `Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`,
+              "info"
+            );
+          }
+        } else {
+          // This case should ideally not be reached with only GBP/EUR options
+          showMessage("Unsupported currency conversion.", "error");
+          resultDisplay.textContent = "Error";
+          return;
         }
 
-        // Event listener for the convert button
-        convertButton.addEventListener('click', convertCurrency);
+        // Display the result, formatted to 2 decimal places
+        resultDisplay.textContent = `${convertedAmount.toFixed(
+          2
+        )} ${toCurrency}`;
+      }
 
-        // Initial fetch and conversion on page load
-        document.addEventListener('DOMContentLoaded', fetchExchangeRate);
+      // Event listener for the convert button
+      convertButton.addEventListener("click", convertCurrency);
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
+      // Initial fetch and conversion on page load
+      document.addEventListener("DOMContentLoaded", fetchExchangeRate);
+
+      // Service Worker Registration
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log(
+                "Service Worker registered with scope:",
+                registration.scope
+              );
+            })
+            .catch((error) => {
+              console.error("Service Worker registration failed:", error);
             });
-        }
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
