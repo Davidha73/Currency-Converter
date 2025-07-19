@@ -109,7 +109,7 @@
       .contact-form {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
+        width: 100%;
         justify-content: center;
       }
       /* General style for all form inputs and the textarea */
@@ -122,7 +122,7 @@
       border-radius: 4px;
       font-size: 16px;
       color: rgb(55, 65, 81);
-      margin-bottom: 16px; /* Adds space below each form field */
+      margin-bottom: 10px; /* Adds space below each form field */
       }
 
       /* Specific style for the textarea */
@@ -149,7 +149,7 @@
           name="name"
           placeholder="David"
           required
-        /><br />
+        />
         <label for="email">Email:</label>
         <input
           type="email"
@@ -157,9 +157,9 @@
           name="email"
           placeholder="yourname@email.com"
           required
-        /><br />
+        />
         <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea><br />
+        <textarea id="message" name="message" required></textarea>
         <input type="submit" class="submit-button" />
       </form>
    
