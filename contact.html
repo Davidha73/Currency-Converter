@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-BR9D7E8713");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Live GBP/EUR Converter</title>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+
+      .container {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 24px;
+        border-radius: 10px;
+        max-width: 448px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        margin-bottom: 24px;
+      }
+
+      p {
+        color: rgb(75, 85, 99);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 400;
+        font-size: 16px;
+        color: rgb(55, 65, 81);
+      }
+      .footer-text {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        padding-top: 20px;
+      }
+
+      .link {
+        display: inline;
+        text-decoration: none;
+        color: rgb(37, 99, 235);
+      }
+
+      .link:hover {
+        text-decoration: underline;
+      }
+      #name {
+        display: block;
+        font-weight: 500;
+        font-size: 18px;
+        color: rgb(55, 65, 81);
+        width: auto;
+        min-width: 200px;
+        height: 25px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      #email {
+        display: block;
+        font-weight: 500;
+        font-size: 18px;
+        color: rgb(55, 65, 81);
+        width: auto;
+        min-width: 250px;
+        height: 25px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+
+      }
+
+      .submit-button {
+        background-color: rgb(37, 99, 235);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s ease;
+      }
+      .submit-button:hover {
+        background-color: rgba(37, 99, 235, 0.8);
+      }
+
+      .submit-button:active {
+        background-color: rgba(37, 99, 235, 0.6);
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+      }
+
+      #message {
+        display: block;
+        font-weight: 500;
+        font-family: "Inter", sans-serif;
+        color: rgb(55, 65, 81);
+        width:auto;
+        min-width: 400px;
+        height: 100px;
+        resize: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>
+        If you have any questions or feedback, feel free to reach out to us:
+      </p>
+
+      <form action="index.php" method="post" class="contact-form">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="David"
+          required
+        /><br />
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="yourname@email.com"
+          required
+        /><br />
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea><br />
+        <input type="submit" class="submit-button" />
+      </form>
+   
+        <div class="footer-text">
+          <a href="/Index.html" class="link">Back to Converter</a>
+        </div>
+      
+
+      </div>
+      
+    </div>
+  </body>
+</html>

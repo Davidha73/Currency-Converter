@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-BR9D7E8713");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About - Live GBP/EUR Converter</title>
@@ -13,13 +27,23 @@
       body {
         font-family: "Inter", sans-serif;
         background-color: #f0f2f5;
-        display: flex;
+        display: block;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         min-height: 100vh;
         margin: 0;
         padding: 1rem;
         box-sizing: border-box;
+      }
+
+      .header {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      p {
+        color: rgb(75, 85, 99);
       }
     </style>
   </head>
@@ -27,10 +51,9 @@
     <div
       class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200"
     >
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
-        About
-      </h1>
-      <p class="text-gray-700 mb-4">
+      <h1 class="header">About</h1>
+
+      <p class="text-700 mb-4">
         This is a simple and free, live currency converter between British
         Pounds (GBP) and Euros (EUR). The exchange rates are fetched from a
         reliable API and cached to provide you with up-to-date conversions.
@@ -42,7 +65,7 @@
         standalone app.
       </p>
 
-      <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-3">
+      <h2 class="text-xl font-semibold text-gray-700 mt-6 mb-3">
         How to Add to Home Screen
       </h2>
 
