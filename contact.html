@@ -20,12 +20,15 @@
     <title>Contact Us - Live GBP/EUR Converter</title>
 
     <style>
+
+      * {
+        box-sizing: border-box;
+
+      }
       body {
         font-family: "Inter", sans-serif;
         background-color: #f0f2f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: block;
         min-height: 100vh;
         margin: 0;
         padding: 1rem;
@@ -41,6 +44,7 @@
         padding: 24px;
         border-radius: 10px;
         max-width: 448px;
+        width: 100%; 
         margin-left: auto;
         margin-right: auto;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -78,31 +82,6 @@
       .link:hover {
         text-decoration: underline;
       }
-      #name {
-        display: block;
-        font-weight: 500;
-        font-size: 18px;
-        color: rgb(55, 65, 81);
-        width: auto;
-        min-width: 200px;
-        height: 25px;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-      #email {
-        display: block;
-        font-weight: 500;
-        font-size: 18px;
-        color: rgb(55, 65, 81);
-        width: auto;
-        min-width: 250px;
-        height: 25px;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-
-      }
 
       .submit-button {
         background-color: rgb(37, 99, 235);
@@ -133,20 +112,26 @@
         align-items: stretch;
         justify-content: center;
       }
-
-      #message {
-        display: block;
-        font-weight: 500;
-        font-family: "Inter", sans-serif;
-        color: rgb(55, 65, 81);
-        width:auto;
-        min-width: 400px;
-        height: 100px;
-        resize: none;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 8px;
+      /* General style for all form inputs and the textarea */
+      #name, #email, #message {
+      display: block;
+      width: 100%;
+      box-sizing: border-box; /* Ensures padding and border are included in the width */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      color: rgb(55, 65, 81);
+      margin-bottom: 16px; /* Adds space below each form field */
       }
+
+      /* Specific style for the textarea */
+      #message {
+      height: 100px;
+      resize: none;
+      font-family: "Inter", sans-serif;
+      }
+
     </style>
   </head>
   <body>
