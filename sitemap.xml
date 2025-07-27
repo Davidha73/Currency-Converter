@@ -5,10 +5,18 @@
     <loc>https://kaz-currency-converter.netlify.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <lastmod>2025-07-22</lastmod>
   </url>
   <!-- About Page -->
   <url>
     <loc>https://kaz-currency-converter.netlify.app/about.html</loc>
     <priority>0.8</priority>
+    <lastmod>2025-07-22</lastmod>
+  </url>
+    <!-- Contact Page -->
+  <url>
+    <loc>https://kaz-currency-converter.netlify.app/contact.html</loc>
+    <priority>0.8</priority>
+    <lastmod>2025-07-22</lastmod>
   </url>
 </urlset>

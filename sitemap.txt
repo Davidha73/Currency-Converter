@@ -1,0 +1,3 @@
+https://kaz-currency-converter.netlify.app/index.html
+https://kaz-currency-converter.netlify.app/about.html
+https://kaz-currency-converter.netlify.app/contact.html
