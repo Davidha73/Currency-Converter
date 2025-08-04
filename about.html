@@ -16,8 +16,14 @@
       gtag("config", "G-BR9D7E8713");
     </script>
     <meta charset="UTF-8" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"
+    />
     <title>About - Live GBP/EUR Converter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -26,17 +32,22 @@
     />
     <style>
       body {
-        overscroll-behavior-y: none;
+        overscroll-behavior: none;
         overflow: hidden;
         font-family: "Inter", sans-serif;
-        background-color: #f0f2f5;
-        display: block;
+        background-color: #ebe7e4;
+        display: flex;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         min-height: 100vh;
         margin: 0;
         padding: 1rem;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      header {
+        padding-top: env(safe-area-inset-top);
       }
 
       .header {

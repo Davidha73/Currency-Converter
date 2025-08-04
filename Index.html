@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BR9D7E8713"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -12,13 +15,28 @@
 
       gtag("config", "G-BR9D7E8713");
     </script>
-    <meta name="google-site-verification" content="20-U9Ao1kMNfy1XUvNZZzcgx8sNvmF_Pr65xhU6A81U"/>
+    <meta
+      name="google-site-verification"
+      content="20-U9Ao1kMNfy1XUvNZZzcgx8sNvmF_Pr65xhU6A81U"
+    />
     <meta charset="UTF-8" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="description" content="Currency Converter is a plain and simple converter between Euros and GBP"/>
-    <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>    
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="description"
+      content="Currency Converter is a plain and simple converter between Euros and GBP"
+    />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"
+    />
 
-    <link rel="canonical" href="https://kaz-currency-converter.netlify.app/about.html"/>
+    <link
+      rel="canonical"
+      href="https://kaz-currency-converter.netlify.app/about.html"
+    />
 
     <title>Live GBP/EUR Converter</title>
     <!-- Web App Manifest -->
@@ -35,10 +53,10 @@
     <style>
       /* Custom styles for Inter font and general body styling */
       body {
-        overscroll-behavior-y: none;
+        overscroll-behavior: none;
         overflow: hidden;
         font-family: "Inter", sans-serif;
-        background-color: #f0f2f5; /* Light gray background */
+        background-color: #ebe7e4; /* Light gray background */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -47,6 +65,7 @@
         margin: 0;
         padding: 1rem; /* Add some padding for smaller screens */
         box-sizing: border-box; /* Include padding in element's total width and height */
+        -webkit-tap-highlight-color: transparent;
       }
       /* Ensure the main container doesn't overflow on very small screens */
       .container {
@@ -78,6 +97,7 @@
         font-size: 15px;
         color: grey;
         word-spacing: 10px;
+        margin-top: 5px;
       }
     </style>
   </head>
@@ -188,8 +208,10 @@
     </div>
 
     <div class="footer-text">
-      <a href="about.html" class="hover:underline">About</a>
-      <a href="contact.html" class="hover:underline">Contact</a>
+      <a href="about.html" class="hover:underline" id="aboutLink">About</a>
+      <a href="contact.html" class="hover:underline" id="contactLink"
+        >Contact</a
+      >
     </div>
 
     <script>

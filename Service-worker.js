@@ -1,5 +1,5 @@
 // 12345
-const CACHE_NAME = "currency-converter-v2.3"; // Increment cache version for new changes
+const CACHE_NAME = "currency-converter-v2.31"; // Increment cache version for new changes
 const urlsToCache = [
   "/", // Root path, typically your index.html
   "/index.html",
