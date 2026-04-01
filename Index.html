@@ -230,9 +230,24 @@
       let GBP_TO_EUR_RATE = 1.16; // Default/fallback rate
 
       // IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from exchangerate-api.com
-      const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
-      const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
+      //const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
+      //const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
 
+      async function updateRate() {
+        try {
+          const response = await fetch('/.netlify/functions/get-rate');
+          const data = await response.json();
+    
+          if (data.conversion_rate) {
+            GBP_TO_EUR_RATE = data.conversion_rate;
+            currentRateValueSpan.innerText = GBP_TO_EUR_RATE.toFixed(4);
+          }
+        } catch (error) {
+          console.error("Error fetching rate:", error);
+          showMessage("Could not update live rates. Using fallback.", "error");
+        }
+      }
+      
       /**
        * Displays a message in the message box.
        * @param {string} message - The message to display.
