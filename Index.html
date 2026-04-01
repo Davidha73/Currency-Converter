@@ -230,7 +230,7 @@
       let GBP_TO_EUR_RATE = 1.16; // Default/fallback rate
 
       // IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from exchangerate-api.com
-      const API_KEY = "927c24338aac7c729fb14ee6";
+      const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
       const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
 
       /**
