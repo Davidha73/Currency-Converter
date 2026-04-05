@@ -56,6 +56,7 @@ self.addEventListener("fetch", (event) => {
   // Always try to fetch from the network for live exchange rates.
   // Fallback to cache only if network is unavailable (though for live data, this might mean stale data).
   if (requestUrl.hostname === "v6.exchangerate-api.com") {
+  if (requestUrl.hostname === "v6.exchangerate-api.com" || requestUrl.pathname.includes("/.netlify/functions/")) {
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {
