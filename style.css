@@ -1,0 +1,43 @@
+/* Custom styles for Inter font and general body styling */
+body {
+  overscroll-behavior: none;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  background-color: #ebe7e4; /* Light gray background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  margin: 0;
+  padding: 1rem; /* Add some padding for smaller screens */
+  box-sizing: border-box; /* Include padding in element's total width and height */
+  -webkit-tap-highlight-color: transparent;
+}
+/* Ensure the main container doesn't overflow on very small screens */
+.container {
+  max-width: 100%;
+}
+/* Simple loading spinner */
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.footer-text {
+  text-align: center;
+  font-size: 15px;
+  color: grey;
+  word-spacing: 10px;
+  margin-top: 5px;
+}

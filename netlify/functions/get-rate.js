@@ -1,7 +1,11 @@
-exports.handler = async () => {
+exports.handler = async (event) => {
   const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
-  // Fixed: Added the '$' before {API_KEY} and updated URL structure to standard v6 format
-  const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/GBP/EUR`;
+  
+  // Get currencies from query parameters, defaulting to GBP/EUR
+  const from = event.queryStringParameters.from || 'GBP';
+  const to = event.queryStringParameters.to || 'EUR';
+
+  const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/${from}/${to}`;
 
   try {
     // Use the built-in global fetch
