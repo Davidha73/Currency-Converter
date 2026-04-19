@@ -12,7 +12,6 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-BR9D7E8713");
     </script>
     <meta charset="UTF-8" />
@@ -24,107 +23,69 @@
       name="viewport"
       content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"
     />
-    <title>About - Live GBP/EUR Converter</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>About - Live EUR/GBP Converter</title>
+    <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
-    <style>
-      body {
-        overscroll-behavior: none;
-        overflow: hidden;
-        font-family: "Inter", sans-serif;
-        background-color: #ebe7e4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 1rem;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      header {
-        padding-top: env(safe-area-inset-top);
-      }
-
-      .header {
-        font-size: 32px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-
-      p {
-        color: rgb(75, 85, 99);
-      }
-    </style>
   </head>
-  <body class="antialiased">
-    <div
-      class="container bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md mx-auto border border-gray-200"
-    >
+  <body>
+    <div class="container">
       <h1 class="header">About</h1>
 
-      <p class="text-700 mb-4">
+      <p>
         This is a simple and free, live currency converter between British
         Pounds (GBP) and Euros (EUR). The exchange rates are fetched from a
         reliable API and cached to provide you with up-to-date conversions.
       </p>
 
       <p>
-        The currency converter can be used on the web aswell as iPhone and
-        Android devices where it can be added to your home screen and used as a
+        The currency converter can be used on the web as well as iPhone and
+        Android devices, where it can be added to your home screen and used as a
         standalone app.
       </p>
 
-      <h2 class="text-xl font-semibold text-gray-700 mt-6 mb-3">
-        How to Add to Home Screen
-      </h2>
+      <h2>How to Add to Home Screen</h2>
 
-      <div class="mb-4">
-        <h3 class="font-semibold text-gray-700 mb-2">iPhone (using Safari):</h3>
-        <ol class="list-decimal list-inside text-gray-600 space-y-1">
+      <div class="input-group">
+        <h3 class="font-semibold">iPhone (using Safari):</h3>
+        <ol>
           <li>Open the currency converter website in Safari.</li>
           <li>
-            Tap the <strong>Share</strong> button.
-            <span class="material-symbols-outlined align-middle text-lg"
-              >ios_share</span
-            >
+            Tap the <strong>Share</strong> button
+            <span class="material-symbols-outlined" style="vertical-align: middle;">ios_share</span>.
           </li>
           <li>
-            Scroll down and tap <strong>Add to Home Screen</strong>.
-            <span class="material-symbols-outlined align-middle text-lg"
-              >add_box</span
-            >
+            Scroll down and tap <strong>Add to Home Screen</strong>
+            <span class="material-symbols-outlined" style="vertical-align: middle;">add_box</span>.
           </li>
           <li>Tap <strong>Add</strong> in the top-right corner.</li>
         </ol>
       </div>
 
-      <div>
-        <h3 class="font-semibold text-gray-700 mb-2">
-          Android (using Chrome):
-        </h3>
-        <ol class="list-decimal list-inside text-gray-600 space-y-1">
+      <div class="input-group">
+        <h3 class="font-semibold">Android (using Chrome):</h3>
+        <ol>
           <li>Open the currency converter website in Chrome.</li>
           <li>
-            Tap the three vertical dots.<span
-              class="material-symbols-outlined align-middle text-lg"
-              >more_vert</span
-            >
+            Tap the three vertical dots
+            <span class="material-symbols-outlined" style="vertical-align: middle;">more_vert</span>.
           </li>
           <li>Tap <strong>Add to Home screen</strong>.</li>
           <li>You can then name the shortcut and tap <strong>Add</strong>.</li>
         </ol>
       </div>
 
-      <div class="text-center mt-6">
-        <a href="/Index.html" class="text-blue-600 hover:underline"
-          >Back to Converter</a
-        >
+      <div class="text-center" style="margin-top: 2rem;">
+        <a href="/Index.html" class="btn-convert" style="text-decoration: none; display: inline-block; width: auto;">
+          Back to Converter
+        </a>
       </div>
+    </div>
+
+    <div class="footer-text">
+      <a href="contact.html">Contact Us</a>
     </div>
   </body>
 </html>

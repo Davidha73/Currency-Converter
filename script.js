@@ -3,6 +3,7 @@ const amountInput = document.getElementById("amount");
 const fromCurrencySelect = document.getElementById("fromCurrency");
 const toCurrencySelect = document.getElementById("toCurrency");
 const convertButton = document.getElementById("convertBtn");
+const swapButton = document.getElementById("swapBtn");
 const resultDisplay = document.getElementById("result");
 const messageBox = document.getElementById("messageBox");
 const messageText = document.getElementById("messageText");
@@ -22,17 +23,15 @@ function showMessage(message, type = "info") {
   messageBox.classList.remove("hidden");
   // Reset classes
   messageBox.classList.remove(
-    "bg-red-100", "border-red-400", "text-red-700",
-    "bg-green-100", "border-green-400", "text-green-700",
-    "bg-blue-100", "border-blue-400", "text-blue-700"
+    "msg-error", "msg-success", "msg-info"
   );
 
   if (type === "error") {
-    messageBox.classList.add("bg-red-100", "border-red-400", "text-red-700");
+    messageBox.classList.add("msg-error");
   } else if (type === "success") {
-    messageBox.classList.add("bg-green-100", "border-green-400", "text-green-700");
+    messageBox.classList.add("msg-success");
   } else {
-    messageBox.classList.add("bg-blue-100", "border-blue-400", "text-blue-700");
+    messageBox.classList.add("msg-info");
   }
 }
 
@@ -114,6 +113,14 @@ function convertCurrency() {
 
   resultDisplay.textContent = `${convertedAmount.toFixed(2)} ${toCurrency}`;
 }
+
+// Event listener for the swap button
+swapButton.addEventListener("click", () => {
+  const tempValue = fromCurrencySelect.value;
+  fromCurrencySelect.value = toCurrencySelect.value;
+  toCurrencySelect.value = tempValue;
+  fetchExchangeRate();
+});
 
 // Event listener for the convert button
 convertButton.addEventListener("click", convertCurrency);

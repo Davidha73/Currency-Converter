@@ -1,23 +1,238 @@
+/* Universal Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Custom styles for Inter font and general body styling */
 body {
   overscroll-behavior: none;
-  overflow: hidden;
   font-family: "Inter", sans-serif;
   background-color: #ebe7e4; /* Light gray background */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensure it takes full viewport height */
+  min-height: 100dvh; /* Use dynamic viewport height for mobile browsers */
   margin: 0;
   padding: 1rem; /* Add some padding for smaller screens */
-  box-sizing: border-box; /* Include padding in element's total width and height */
   -webkit-tap-highlight-color: transparent;
 }
-/* Ensure the main container doesn't overflow on very small screens */
+
+/* Main Layout Container (The Card) */
 .container {
-  max-width: 100%;
+  background-color: white;
+  padding: 16px;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #e5e7eb;
 }
+
+/* Typography & Global Elements */
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 16px; /* Add some right padding to prevent text from touching the edge on small screens */
+}
+
+@media (min-width: 640px) {
+  h1 {
+    font-size: 1.875rem;
+  }
+}
+
+h1 img {
+  width: 4rem;
+  height: 4rem;
+  margin-right: 0.75rem;
+}
+
+.header {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+p {
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.text-center { text-align: center; }
+.hidden { display: none; }
+
+/* Form & Input Styling */
+.input-group {
+  margin-bottom: 6px;
+}
+
+.contact-form, .currency-selection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.relative { 
+  position: relative; 
+}
+.flex-col { 
+  display: flex;
+  flex-direction: column;
+}
+.gap-4 {
+  gap: none;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #374151;
+}
+
+#name, #email, #message, .input-field, .select-field {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #374151;
+  margin-bottom: 12px;
+  font-family: inherit;
+  transition: border-color 0.2s, ring 0.2s;
+}
+
+.input-field:focus, .select-field:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Swap Button */
+.btn-swap {
+  position: absolute;
+  right: 1rem;
+  top: 52%;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: #4b5563;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-swap:hover {
+  background-color: #f9fafb;
+}
+
+.btn-swap svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* Main Convert Button */
+.btn-convert {
+  width: 100%;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-convert:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}
+
+#message {
+  height: 100px;
+  resize: none;
+}
+
+/* Result Display */
+.result-container {
+  margin-top: 16px;
+  padding: 8px;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.result-label {
+  font-size: 1.125rem;
+  color: #374151;
+  font-weight: 600;
+  margin: 0;
+}
+
+.result-value {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: #1e40af;
+  margin-top: 8px;
+}
+
+/* Message Box States */
+.message-box {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.msg-error { background-color: #fee2e2; border-color: #f87171; color: #b91c1c; }
+.msg-success { background-color: #dcfce7; border-color: #4ade80; color: #15803d; }
+.msg-info { background-color: #dbeafe; border-color: #60a5fa; color: #1d4ed8; }
+
+.btn-close-msg {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+}
+
 /* Simple loading spinner */
 .loader {
   border: 4px solid #f3f3f3; /* Light grey */
@@ -34,10 +249,61 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.loading-text {
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.live-rate-text {
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.font-semibold { font-weight: 600; }
+
+.main-footer-text {
+  text-align: center;
+  font-size: 15px;
+  color: #6b7280;
+  margin-top: 1.5rem;
+  width: 100%;
+  text-decoration: none;
+  word-spacing: 8px;
+}
+
 .footer-text {
   text-align: center;
   font-size: 15px;
-  color: grey;
-  word-spacing: 10px;
-  margin-top: 5px;
+  color: #6b7280;
+  margin-top: 1.5rem;
+  width: 100%;
+  text-decoration: none;
+}
+
+.main-footer-text a, .footer-text a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main-footer-text a:hover, .footer-text a:hover {
+  text-decoration: underline;
+}
+
+.submit-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 16px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.submit-button:hover {
+  background-color: #1d4ed8;
 }
