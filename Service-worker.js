@@ -1,8 +1,9 @@
 // 12345
-const CACHE_NAME = "currency-converter-v2.34"; // Increment cache version for new changes
+const CACHE_NAME = "currency-converter-v2.37"; // Increment cache version for new changes
 const urlsToCache = [
   "./",
   "./index.html",
+  "./offline.html",
   "./style.css",
   "./script.js",
   "./manifest.json",
@@ -70,7 +71,12 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(() => {
           // If network fails, try to get from cache (might be stale)
-          return caches.match(event.request);
+          return caches.match(event.request).then((cachedResponse) => {
+            return cachedResponse || new Response(JSON.stringify({ error: "Offline: Live rates unavailable" }), {
+              status: 503,
+              headers: { "Content-Type": "application/json" }
+            });
+          });
         })
     );
   } else {
@@ -88,8 +94,14 @@ self.addEventListener("fetch", (event) => {
             "Service Worker: Fetch failed for static asset:",
             error
           );
-          // You could serve an offline page here if needed
-          // For this simple app, we'll just let the fetch fail.
+          if (event.request.mode === "navigate") {
+            return caches.match("./offline.html");
+          }
+          return new Response("Offline resource unavailable", {
+            status: 503,
+            statusText: "Service Unavailable",
+            headers: new Headers({ "Content-Type": "text/plain" })
+          });
         });
       })
     );

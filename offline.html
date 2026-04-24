@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Currency Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&family=Inter:wght@400&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(0, 69, 50, 0.2) 0%, transparent 40%), #0a0c0d;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        h1 { font-family: 'Manrope', sans-serif; font-size: 2.5rem; margin-bottom: 1rem; }
+        p { color: rgba(255, 255, 255, 0.6); max-width: 300px; line-height: 1.6; }
+        .btn { margin-top: 2rem; padding: 1rem 2rem; background: #004532; border: none; border-radius: 9999px; color: white; font-weight: bold; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+        .btn:hover { background: #065f46; }
+    </style>
+</head>
+<body>
+    <h1>You're Offline</h1>
+    <p>We can't reach the exchange rate servers right now. Check your connection and try again.</p>
+    <a href="/" class="btn">Retry Connection</a>
+</body>
+</html>

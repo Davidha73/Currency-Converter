@@ -19,14 +19,30 @@ const currencySymbols = {
   EUR: "€",
   GBP: "£",
   USD: "$",
-  JPY: "¥"
+  JPY: "¥",
+  CAD: "$",
+  AUD: "$",
+  CHF: "Fr",
+  SEK: "kr",
+  NOK: "kr",
+  DKK: "kr",
+  PLN: "zł",
+  CZK: "Kč"
 };
 
 const currencyFlags = {
   EUR: "eu",
   GBP: "gb",
   USD: "us",
-  JPY: "jp"
+  JPY: "jp",
+  CAD: "ca",
+  AUD: "au",
+  CHF: "ch",
+  SEK: "se",
+  NOK: "no",
+  DKK: "dk",
+  PLN: "pl",
+  CZK: "cz"
 };
 
 // Global variable for the exchange rate
@@ -63,6 +79,24 @@ function showMessage(message, type = "info") {
 }
 
 /**
+ * Formats a timestamp into a human-readable "Updated X ago" string.
+ * @param {number} timestamp - The timestamp in milliseconds.
+ * @returns {string} - The formatted string.
+ */
+function formatLastUpdated(timestamp) {
+  if (!timestamp) return "";
+  const now = new Date().getTime();
+  const diffSeconds = Math.floor((now - timestamp) / 1000);
+
+  if (diffSeconds < 60) return `Updated just now`;
+  if (diffSeconds < 3600) return `Updated ${Math.floor(diffSeconds / 60)} min ago`;
+  if (diffSeconds < 86400) return `Updated ${Math.floor(diffSeconds / 3600)} hr ago`;
+  
+  const days = Math.floor(diffSeconds / 86400);
+  return `Updated ${days} day${days > 1 ? 's' : ''} ago`;
+}
+
+/**
  * Fetches the live exchange rate from the API.
  */
 async function fetchExchangeRate() {
@@ -78,7 +112,10 @@ async function fetchExchangeRate() {
 
   // Immediately update UI labels to show what we are currently fetching
   const rateDisplay = document.getElementById('liveRateDisplay');
-  rateDisplay.innerHTML = `1 ${from} = <span id="currentRateValue">...</span> ${to}`;
+  rateDisplay.innerHTML = `
+    <span>1 ${from} = <span id="currentRateValue">...</span> ${to}</span>
+    <span class="rate-last-updated">Fetching...</span>
+  `;
 
   // Handle identity conversion locally
   if (from === to) {
@@ -98,8 +135,10 @@ async function fetchExchangeRate() {
   // Check if we have a valid cache (less than 12 hours old)
   if (lastFetchTime && cachedRate && (now - lastFetchTime < 12 * 60 * 60 * 1000)) {
     currentExchangeRate = parseFloat(cachedRate);
-    rateDisplay.innerHTML = `1 ${from} = <span id="currentRateValue">${currentExchangeRate.toFixed(4)}</span> ${to}`;
-    showMessage(`Using cached rate. Last updated less than 12 hours ago.`, "info");
+    const lastUpdatedText = formatLastUpdated(parseInt(lastFetchTime));
+    rateDisplay.innerHTML = `
+      <span>1 ${from} = <span id="currentRateValue">${currentExchangeRate.toFixed(4)}</span> ${to}</span>
+      <span class="rate-last-updated">${lastUpdatedText}</span>`;
     convertCurrency();
     return;
   }
@@ -119,8 +158,10 @@ async function fetchExchangeRate() {
       localStorage.setItem(cacheKey, currentExchangeRate);
       localStorage.setItem(timeKey, now);
       
-      rateDisplay.innerHTML = `1 ${from} = <span id="currentRateValue">${currentExchangeRate.toFixed(4)}</span> ${to}`;
-      showMessage(`Live rate updated: 1 ${from} = ${currentExchangeRate.toFixed(4)} ${to}`, "success");
+      const lastUpdatedText = formatLastUpdated(now);
+      rateDisplay.innerHTML = `
+        <span>1 ${from} = <span id="currentRateValue">${currentExchangeRate.toFixed(4)}</span> ${to}</span>
+        <span class="rate-last-updated">${lastUpdatedText}</span>`;
     } else {
       throw new Error("Invalid response from rate service.");
     }
@@ -168,9 +209,6 @@ function convertCurrency(shouldSave = false) {
   let convertedAmount;
   if (fromCurrency === toCurrency) {
     convertedAmount = amount;
-    if (messageBox.classList.contains("hidden")) {
-      showMessage(`Converting from ${fromCurrency} to ${toCurrency} results in the same amount.`, "info");
-    }
   } else {
     convertedAmount = amount * currentExchangeRate;
   }
