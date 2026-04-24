@@ -1,20 +1,19 @@
 // 12345
-const CACHE_NAME = "currency-converter-v2.32"; // Increment cache version for new changes
+const CACHE_NAME = "currency-converter-v2.34"; // Increment cache version for new changes
 const urlsToCache = [
-  "/", // Root path, typically your index.html
-  "/index.html",
-  "/manifest.json",
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.json",
   // Add all icon paths here (ensure these exist in your /icons folder)
-  "/icons/icon-72x72.png",
-  "/icons/icon-96x96.png",
-  "/icons/icon-128x128.png",
-  // "/icons/icon-144x144.png",
-  "/icons/icon-152x152.png",
-  "/icons/icon-192x192.png",
-  "/icons/icon-384x384.png",
-  "/icons/icon-512x512.png",
-  // Tailwind CSS CDN (cache this for offline styling)
-  "https://cdn.tailwindcss.com",
+  "./icons/icon-72x72.png",
+  "./icons/icon-96x96.png",
+  "./icons/icon-128x128.png",
+  "./icons/icon-152x152.png",
+  "./icons/icon-192x192.png",
+  "./icons/icon-384x384.png",
+  "./icons/icon-512x512.png"
 ];
 
 // Install event: Caches all the necessary static assets
@@ -50,6 +49,9 @@ self.addEventListener("activate", (event) => {
 
 // Fetch event: Handles network requests
 self.addEventListener("fetch", (event) => {
+  // Ensure non-GET requests (like form POSTs) bypass the Service Worker cache logic
+  if (event.request.method !== "GET") return;
+
   const requestUrl = new URL(event.request.url);
 
   // Strategy for API calls (Network-First):

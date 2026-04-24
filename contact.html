@@ -18,46 +18,56 @@
     <meta charset="UTF-8" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
-    <title>Contact Us - Live GBP/EUR Converter</title>
-
+    <title>Contact - Convert Capital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0a0c0d" />
   </head>
-  <body>
-    <div class="container">
-      <h1>Contact Us</h1>
-      <p>
-        If you have any questions or feedback, feel free to reach out to us:
-      </p>
-
-      <form name="contact" method="post" data-netlify="true" class="contact-form">
-        <label for="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="yourname"
-          required
-        />
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="yourname@email.com"
-          required
-        />
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-        <input type="submit" class="submit-button" />
-      </form>
-   
-        <div class="footer-text">
-          <a href="/Index.html" class="link">Back to Converter</a>
-        </div>
-      
-
+  <body class="nebula-bg">
+    <main class="main-layout">
+      <div class="bg-decorative">
+        <div class="decorative-bg-image"></div>
       </div>
-      
-    </div>
+
+      <div class="content-container">
+        <section class="app-header">
+          <p class="header-tagline">Support & Feedback</p>
+          <h2 class="app-title">Get in Touch</h2>
+        </section>
+
+        <div class="glass-card">
+          <p>Have inquiries regarding conversion accuracy or feature requests? Reach out to our technical team.</p>
+
+          <form id="contactForm" name="contact" method="post" data-netlify="true" class="contact-form">
+            <label for="name" class="label-text form-label">Full Name</label>
+            <input type="text" id="name" name="name" class="text-input" placeholder="Enter your name" required />
+            
+            <label for="email" class="label-text form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="text-input" placeholder="name@domain.com" required />
+            
+            <label for="message" class="label-text form-label">Message</label>
+            <textarea id="message" name="message" class="text-area" rows="4" placeholder="Your message..." required></textarea>
+            
+            <button type="submit" class="primary-action-btn" style="padding: 1.25rem;">
+              <span>Send Message</span>
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="footer-nav">
+          <a href="/Index.html">Back to Converter</a>
+          <a href="about.html">About</a>
+        </div>
+      </div>
+
+      <!-- Message Box -->
+      <div id="messageBox" class="message-box hidden" role="alert">
+        <span id="messageText" class="message-text-style"></span>
+        <button class="btn-close-msg btn-close-msg-style">&times;</button>
+      </div>
+    </main>
+    <script src="script.js" defer></script>
   </body>
 </html>

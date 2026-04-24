@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Ledger | Currency Converter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1e",
+                        "outline": "#6f7973",
+                        "secondary-container": "#8fa7fe",
+                        "on-surface": "#191c1e",
+                        "surface-tint": "#1b6b51",
+                        "outline-variant": "#bec9c2",
+                        "on-secondary-fixed-variant": "#264191",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-primary-fixed-variant": "#00513b",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "error": "#ba1a1a",
+                        "tertiary": "#2d3d52",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed-dim": "#8bd6b6",
+                        "inverse-primary": "#8bd6b6",
+                        "on-error-container": "#93000a",
+                        "background": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#1d3989",
+                        "secondary-fixed": "#dce1ff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#002116",
+                        "surface-container": "#eceef0",
+                        "tertiary-container": "#44546a",
+                        "primary-container": "#065f46",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#004532",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-container": "#8bd6b7",
+                        "on-tertiary-container": "#b8c8e2",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "surface": "#f7f9fb",
+                        "on-surface-variant": "#3f4944",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed-dim": "#b6c4ff",
+                        "secondary": "#4059aa",
+                        "on-secondary-fixed": "#00164e",
+                        "primary-fixed": "#a6f2d1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 20px rgba(0, 69, 50, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .nebula-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(0, 69, 50, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(64, 89, 170, 0.2) 0%, transparent 40%),
+                        #0a0c0d;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-on-background font-body text-on-surface-variant selection:bg-primary-fixed-dim selection:text-on-primary-fixed antialiased">
+<!-- Top Navigation -->
+<main class="min-h-screen pt-24 pb-32 px-6 nebula-bg relative overflow-hidden">
+<!-- Background decorative image -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="w-full h-full" data-alt="vibrant neon green and blue nebular clouds in deep space with subtle glowing particles and cosmic depth" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsvaESzv7IJlSkMxQFRDFkBofXhi_bNK6X3xdazC8Tlmi7L61N4RTousgBQaMkEOBji8tUNEFD_dpjGY7kw-HQtdiuAZSR4y6KJsCbp433luTX-6Oclq8NThYqzVgwmj1LNsqoyfweCBVO2b_kbw6Syx7YuuCIarxTqPkhvk0NDgSLygOUaw60TzZlvEEKKAOXisWq3Y5GAd04C_awv43QY6SQ3dO-cQjb3PY3HYLFSAnlVmAsQV_FYs3AsnOx9GaIQ2aRp_TmRylo'); background-size: cover; background-position: center;"></div>
+</div>
+<div class="max-w-xl mx-auto relative z-10 space-y-8">
+<!-- Header Section -->
+<section class="text-center space-y-2">
+<p class="text-primary-fixed-dim font-headline font-bold uppercase tracking-[0.2em] text-[10px]">Real-time Market Rates</p>
+<h2 class="text-white text-4xl font-headline font-extrabold tracking-tight">Convert Capital</h2>
+</section>
+<!-- Converter Bento Stack -->
+<div class="space-y-4">
+<!-- Sell Card -->
+<div class="glass-card rounded-[2rem] p-8 shadow-2xl">
+<div class="flex justify-between items-center mb-6">
+<span class="text-white/60 text-xs font-label font-semibold uppercase tracking-widest">Sell Amount</span>
+<div class="bg-white/10 px-3 py-1 rounded-full flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse"></div>
+<span class="text-white text-[10px] font-medium">USD Balance: $24,500.00</span>
+</div>
+</div>
+<div class="flex items-end justify-between gap-4">
+<input class="bg-transparent border-none p-0 text-white font-headline text-5xl font-bold focus:ring-0 w-full placeholder-white/20" type="text" value="1,250.00"/>
+<div class="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition-colors p-2 pr-4 rounded-full cursor-pointer">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-white/20">
+<img class="w-full h-full object-cover" data-alt="US flag icon showing stars and stripes in a circular button" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjSw1VoLn-rBzwJoLX7SQwBScIarmnMaQC3tXm9hLhdtAHRSL7qJEJGpKlafk6wbAc41VLyNeZKrWzjxOxx0ZZARkHUOwz6PDjJJwKtsQWTmYNLKCpKrYE1Qw8CJSOtxRfcXwnVJhqDtFCWZJ4Zonl26NSi-BH3kXojYbaOkPCcbGWKLQJp1Sqwpx-UwRcsbbDwCNCfp0Rd2SKundisBbGoWH1UrTk6ruhIBlVRr8eJhB6gJ2C_y5nBpFK8-UGw1g4jqo3dqxNUszK"/>
+</div>
+<span class="text-white font-bold font-headline tracking-tighter">USD</span>
+<span class="material-symbols-outlined text-white/40" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Swap Action -->
+<div class="flex justify-center -my-6 relative z-20">
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white border-4 border-on-background shadow-lg scale-100 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined font-bold" data-icon="swap_vert">swap_vert</span>
+</button>
+</div>
+<!-- Buy Card -->
+<div class="glass-card rounded-[2rem] p-8 shadow-2xl">
+<div class="flex justify-between items-center mb-6">
+<span class="text-white/60 text-xs font-label font-semibold uppercase tracking-widest">Buy Amount</span>
+<span class="text-primary-fixed-dim text-[10px] font-bold font-headline">1 USD = 0.92 EUR</span>
+</div>
+<div class="flex items-end justify-between gap-4">
+<div class="text-white/40 font-headline text-5xl font-bold">1,150.00</div>
+<div class="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition-colors p-2 pr-4 rounded-full cursor-pointer">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-white/20">
+<img class="w-full h-full object-cover" data-alt="European Union flag with gold stars on blue background in a circular button" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIaHW3d3gPf69eSkNo6oQv7XRcnYjzc6RQh_uKhPEqe9I8QPXWMirdcMd61RFdInjjN_g7jQb5vZKoJhWmrFxIwM7MZf153muX3KhVr0WP_J_Wr6Z3iq4mhpAY5AO_DH8QOcnDt93w7SxGoatZbVSWCitJH8lYSOR3ayd1OZw-4db4iFSGfomKOE1y3Nb0mCq4cPXN0klfieARpfzcjEpGxA4H1kzXbHVf8RX7rftatoowTwmQp9_3M2cusDDmh3G_KJ1SbRuvlcMg"/>
+</div>
+<span class="text-white font-bold font-headline tracking-tighter">EUR</span>
+<span class="material-symbols-outlined text-white/40" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full py-6 bg-primary text-white font-headline font-extrabold text-lg rounded-full neon-glow-primary hover:bg-primary-container transition-all scale-100 active:scale-95 flex items-center justify-center gap-3">
+<span>Execute Transaction</span>
+<span class="material-symbols-outlined" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+<!-- Market Trend Chart -->
+<!-- Your Assets -->
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+</body></html>

@@ -37,123 +37,142 @@
       href="https://kaz-currency-converter.netlify.app/about.html"
     />
 
-    <title>Live EUR/GBP Converter</title>
+    <title>Currency Converter</title>
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
     <!-- Apple Touch Icon (for iOS home screen) -->
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
     <!-- Favicon -->
     <link rel="icon" href="/icons/favicon-64x64.ico" />
-    <!-- Theme color for browser UI -->
-    <meta name="theme-color" content="#f0f2f5" />
+    <meta name="theme-color" content="#0a0c0d" />
 
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    <div class="container">
-      <h1>
-        <img src="/icons/icon-192x192.png" alt="icon" />
-        Live Currency Converter
-      </h1>
-
-      <!-- Loading Indicator -->
-      <div id="loadingIndicator" class="text-center loading-text hidden">
-        <span class="loader"></span> Fetching live rates...
+  <body class="nebula-bg">
+    <main class="main-layout">
+      <!-- Background decorative image -->
+      <div class="bg-decorative">
+        <div class="decorative-bg-image"></div>
       </div>
 
-      <!-- Live Rate Display -->
-      <div id="liveRateDisplay" class="text-center live-rate-text">
-        Current Rate: 1 EUR =
-        <span id="currentRateValue" class="font-semibold">N/A</span> GBP
-      </div>
+      <div class="content-container">
+        <!-- Header Section -->
+        <section class="app-header">
+          <p class="header-tagline">Live Currency Converter using Real Time Rates</p>
+          <h2 class="app-title">Currency Converter</h2>
+          
+          <!-- Loading Indicator -->
+          <div id="loadingIndicator" class="hidden">
+            <span class="loader loader-small"></span> Updating rates...
+          </div>
+        </section>
 
-      <!-- Input Amount Section -->
-      <div class="input-group">
-        <label for="amount">Amount:</label>
-        <input
-          type="text"
-          inputmode="decimal"
-          pattern="[0-9]*(\.|,)[0-9]*"
-          id="amount"
-          value="1.00"
-          min="0"
-          step="0.01"
-          onfocus="this.select()"
-          class="input-field"
-        />
-      </div>
+        <!-- Converter Bento Stack -->
+        <div class="converter-stack">
+          <!-- Sell Card -->
+          <div class="glass-card">
+            <div class="card-header">
+              <span class="label-text">From Amount</span>
+              <div class="custom-select" id="fromSelectWrapper">
+                <button class="select-trigger" id="fromTrigger">
+                  <div class="flag-container">
+                    <img src="https://flagcdn.com/w40/eu.png" alt="" class="select-flag">
+                  </div>
+                  <span class="selected-code">EUR</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+                <div class="select-options hidden">
+                  <div class="option" data-value="EUR"><img src="https://flagcdn.com/w40/eu.png" class="option-flag"> EUR</div>
+                  <div class="option" data-value="GBP"><img src="https://flagcdn.com/w40/gb.png" class="option-flag"> GBP</div>
+                  <div class="option" data-value="USD"><img src="https://flagcdn.com/w40/us.png" class="option-flag"> USD</div>
+                  <div class="option" data-value="JPY"><img src="https://flagcdn.com/w40/jp.png" class="option-flag"> JPY</div>
+                </div>
+              </div>
+              <!-- Hidden input to store value for existing script logic -->
+              <input type="hidden" id="fromCurrency" value="EUR">
+            </div>
+            <div class="input-row">
+              <div class="amount-input-group">
+                <span id="fromSymbol" class="amount-symbol">€</span>
+                <input class="amount-field" type="number" id="amount" value="1.00" step="0.01" inputmode="decimal"/>
+              </div>
+            </div>
+          </div>
 
-      <!-- Currency Selection Section -->
-      <div class="relative flex-col gap-4 currency-selection">
-        <div class="input-group">
-          <label for="fromCurrency">From:</label>
-          <select id="fromCurrency" class="select-field">
-            <option value="EUR" selected>EUR - Euro</option>
-            <option value="GBP">GBP - British Pound</option>
-            <option value="USD">USD - US Dollar</option>
-            <option value="JPY">JPY - Japanese Yen</option>
-          </select>
+          <!-- Swap Action -->
+          <div class="swap-container">
+            <button id="swapBtn" class="btn-swap">
+              <span class="material-symbols-outlined font-bold">swap_vert</span>
+            </button>
+          </div>
+
+          <!-- Buy Card -->
+          <div class="glass-card">
+            <div class="card-header">
+              <span class="label-text">To Amount</span>
+              <div class="custom-select" id="toSelectWrapper">
+                <button class="select-trigger" id="toTrigger">
+                  <div class="flag-container">
+                    <img src="https://flagcdn.com/w40/gb.png" alt="" class="select-flag">
+                  </div>
+                  <span class="selected-code">GBP</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+                <div class="select-options hidden">
+                  <div class="option" data-value="EUR"><img src="https://flagcdn.com/w40/eu.png" class="option-flag"> EUR</div>
+                  <div class="option" data-value="GBP"><img src="https://flagcdn.com/w40/gb.png" class="option-flag"> GBP</div>
+                  <div class="option" data-value="USD"><img src="https://flagcdn.com/w40/us.png" class="option-flag"> USD</div>
+                  <div class="option" data-value="JPY"><img src="https://flagcdn.com/w40/jp.png" class="option-flag"> JPY</div>
+                </div>
+              </div>
+              <!-- Hidden input to store value for existing script logic -->
+              <input type="hidden" id="toCurrency" value="GBP">
+            </div>
+            <div class="input-row">
+              <div class="amount-input-group">
+                <span id="toSymbol" class="amount-symbol">£</span>
+                <div id="result" class="result-value">0.00</div>
+              </div>
+              <div id="liveRateDisplay" class="rate-info">
+                1 EUR = <span id="currentRateValue">...</span> GBP
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="toCurrency">To:</label>
-          <select id="toCurrency" class="select-field">
-            <option value="GBP" selected>GBP - British Pound</option>
-            <option value="EUR">EUR - Euro</option>
-            <option value="USD">USD - US Dollar</option>
-            <option value="JPY">JPY - Japanese Yen</option>
-          </select>
+        <!-- Execute Button -->
+        <button id="convertBtn" class="primary-action-btn">
+          <span>Convert</span>
+          <span class="material-symbols-outlined fill-icon">bolt</span>
+        </button>
+
+        <!-- Recent Conversions Log -->
+        <section id="conversionHistory" class="history-section hidden">
+            <div class="history-header">
+                <p class="header-tagline">Recent Conversions</p>
+                <div class="history-actions">
+                    <button id="exportHistoryBtn" class="btn-history-action">Export CSV</button>
+                    <button id="clearHistoryBtn" class="btn-history-action">Clear History</button>
+                </div>
+            </div>
+            <div id="historyList" class="history-stack"></div>
+        </section>
+
+        <!-- Message Box -->
+        <div id="messageBox" class="message-box hidden" role="alert">
+          <span id="messageText" class="message-text-style"></span>
+          <button class="btn-close-msg btn-close-msg-style">&times;</button>
         </div>
 
-        <!-- Floating Swap Button -->
-        <button
-          id="swapBtn"
-          type="button"
-          aria-label="Swap currencies"
-          class="btn-swap"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-            />
-          </svg>
-        </button>
+        <!-- Footer Links -->
+        <div class="footer-nav">
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
       </div>
-
-      <!-- Convert Button -->
-      <button id="convertBtn" class="btn-convert">Convert</button>
-
-      <!-- Result Display Section -->
-      <div class="result-container">
-        <p class="result-label">Converted Amount:</p>
-        <p id="result" class="result-value">0.00 GBP</p>
-      </div>
-
-      <!-- Message Box for Alerts -->
-      <div id="messageBox" class="message-box hidden" role="alert">
-        <span id="messageText"></span>
-        <button
-          class="btn-close-msg"
-          onclick="document.getElementById('messageBox').classList.add('hidden');"
-        >
-          &times;
-        </button>
-      </div>
-    </div>
-
-    <div class="main-footer-text">
-      <a href="about.html" id="aboutLink">About</a>
-      <a href="contact.html" id="contactLink">Contact</a>
-    </div>
-
+    </main>
     <script src="script.js" defer></script>
   </body>
 </html>
