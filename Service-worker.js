@@ -1,8 +1,7 @@
 // 12345
-const CACHE_NAME = "currency-converter-v2.37"; // Increment cache version for new changes
+const CACHE_NAME = "currency-converter-v2.38"; // Increment cache version to force update
 const urlsToCache = [
   "./",
-  "./index.html",
   "./offline.html",
   "./style.css",
   "./script.js",

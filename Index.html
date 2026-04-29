@@ -31,12 +31,10 @@
       name="viewport"
       content="initial-scale=1.0, viewport-fit=cover, user-scalable=no"
     />
-
     <link
       rel="canonical"
       href="https://kaz-currency-converter.netlify.app/about.html"
     />
-
     <title>Currency Converter</title>
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -45,150 +43,374 @@
     <!-- Favicon -->
     <link rel="icon" href="/icons/favicon-64x64.ico" />
     <meta name="theme-color" content="#0a0c0d" />
-
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
   </head>
   <body class="nebula-bg">
-    <main class="main-layout">
-      <!-- Background decorative image -->
-      <div class="bg-decorative">
-        <div class="decorative-bg-image"></div>
-      </div>
+    <!-- Side Navigation Tabs (Symmetrical handles for SPA navigation) -->
+    <div id="navTabRight" class="side-nav-tab right" role="button" aria-label="Open Spend Log">
+      <span class="material-symbols-outlined">payments</span>
+      <span class="tab-label">Spend Log</span>
+    </div>
 
-      <div class="content-container">
-        <!-- Header Section -->
-        <section class="app-header">
-          <p class="header-tagline">Live Currency Converter using Real Time Rates</p>
-          <h2 class="app-title">Currency Converter</h2>
+    <div id="navTabLeft" class="side-nav-tab left hidden" role="button" aria-label="Back to Converter">
+      <span class="material-symbols-outlined">currency_exchange</span>
+      <span class="tab-label">Converter</span>
+    </div>
+
+    <main id="appContainer" class="app-container">
+      <!-- Page 1: Converter -->
+      <section id="converterPage" class="page-view main-layout">
+        <div class="bg-decorative">
+          <div class="decorative-bg-image"></div>
+        </div>
+
+        <div class="content-container">
+          <!-- Header Section -->
+          <header class="app-header">
+            <p class="header-tagline">Live Currency Converter using Real Time Rates</p>
+            <h2 class="app-title">Currency Converter</h2>
+            
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="hidden">
+              <span class="loader loader-small"></span> Updating rates...
+            </div>
+          </header>
+
+          <!-- Converter Bento Stack -->
+          <div class="converter-stack">
+            <!-- Sell Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <span class="label-text">From Amount</span>
+                <div class="custom-select" id="fromSelectWrapper">
+                  <button class="select-trigger" id="fromTrigger" aria-haspopup="listbox" aria-label="Select source currency">
+                    <div class="flag-container">
+                      <img src="https://flagcdn.com/w40/eu.png" alt="" class="select-flag">
+                    </div>
+                    <span class="selected-code">EUR</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+                  <div class="select-options hidden" role="listbox">
+                    <div class="scroll-indicator up hidden"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+                    <div class="option" data-value="EUR" role="option"><img src="https://flagcdn.com/w40/eu.png" class="option-flag" alt=""> EUR</div>
+                    <div class="option" data-value="GBP" role="option"><img src="https://flagcdn.com/w40/gb.png" class="option-flag" alt=""> GBP</div>
+                    <div class="option" data-value="USD" role="option"><img src="https://flagcdn.com/w40/us.png" class="option-flag" alt=""> USD</div>
+                    <div class="option" data-value="JPY" role="option"><img src="https://flagcdn.com/w40/jp.png" class="option-flag" alt=""> JPY</div>
+                    <div class="option" data-value="CAD" role="option"><img src="https://flagcdn.com/w40/ca.png" class="option-flag" alt=""> CAD</div>
+                    <div class="option" data-value="AUD" role="option"><img src="https://flagcdn.com/w40/au.png" class="option-flag" alt=""> AUD</div>
+                    <div class="option" data-value="CHF" role="option"><img src="https://flagcdn.com/w40/ch.png" class="option-flag" alt=""> CHF</div>
+                    <div class="option" data-value="SEK" role="option"><img src="https://flagcdn.com/w40/se.png" class="option-flag" alt=""> SEK</div>
+                    <div class="option" data-value="NOK" role="option"><img src="https://flagcdn.com/w40/no.png" class="option-flag" alt=""> NOK</div>
+                    <div class="option" data-value="DKK" role="option"><img src="https://flagcdn.com/w40/dk.png" class="option-flag" alt=""> DKK</div>
+                    <div class="option" data-value="PLN" role="option"><img src="https://flagcdn.com/w40/pl.png" class="option-flag" alt=""> PLN</div>
+                    <div class="option" data-value="CZK" role="option"><img src="https://flagcdn.com/w40/cz.png" class="option-flag" alt=""> CZK</div>
+                    <div class="scroll-indicator down"><span class="material-symbols-outlined">keyboard_arrow_down</span></div>
+                  </div>
+                </div>
+                <input type="hidden" id="fromCurrency" value="EUR">
+              </div>
+              <div class="input-row">
+                <div class="amount-input-group">
+                  <span id="fromSymbol" class="amount-symbol">€</span>
+                  <input class="amount-field" type="number" id="amount" value="1.00" step="0.01" inputmode="decimal" aria-label="Source amount"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Swap Action -->
+            <div class="swap-container">
+              <button id="swapBtn" class="btn-swap" aria-label="Swap source and target currencies">
+                <span class="material-symbols-outlined font-bold">swap_vert</span>
+              </button>
+            </div>
+
+            <!-- Buy Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <span class="label-text">To Amount</span>
+                <div class="custom-select" id="toSelectWrapper">
+                  <button class="select-trigger" id="toTrigger" aria-haspopup="listbox" aria-label="Select target currency">
+                    <div class="flag-container">
+                      <img src="https://flagcdn.com/w40/gb.png" alt="" class="select-flag">
+                    </div>
+                    <span class="selected-code">GBP</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+                  <div class="select-options hidden" role="listbox">
+                    <div class="scroll-indicator up hidden"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+                    <div class="option" data-value="EUR" role="option"><img src="https://flagcdn.com/w40/eu.png" class="option-flag" alt=""> EUR</div>
+                    <div class="option" data-value="GBP" role="option"><img src="https://flagcdn.com/w40/gb.png" class="option-flag" alt=""> GBP</div>
+                    <div class="option" data-value="USD" role="option"><img src="https://flagcdn.com/w40/us.png" class="option-flag" alt=""> USD</div>
+                    <div class="option" data-value="JPY" role="option"><img src="https://flagcdn.com/w40/jp.png" class="option-flag" alt=""> JPY</div>
+                    <div class="option" data-value="CAD" role="option"><img src="https://flagcdn.com/w40/ca.png" class="option-flag" alt=""> CAD</div>
+                    <div class="option" data-value="AUD" role="option"><img src="https://flagcdn.com/w40/au.png" class="option-flag" alt=""> AUD</div>
+                    <div class="option" data-value="CHF" role="option"><img src="https://flagcdn.com/w40/ch.png" class="option-flag" alt=""> CHF</div>
+                    <div class="option" data-value="SEK" role="option"><img src="https://flagcdn.com/w40/se.png" class="option-flag" alt=""> SEK</div>
+                    <div class="option" data-value="NOK" role="option"><img src="https://flagcdn.com/w40/no.png" class="option-flag" alt=""> NOK</div>
+                    <div class="option" data-value="DKK" role="option"><img src="https://flagcdn.com/w40/dk.png" class="option-flag" alt=""> DKK</div>
+                    <div class="option" data-value="PLN" role="option"><img src="https://flagcdn.com/w40/pl.png" class="option-flag" alt=""> PLN</div>
+                    <div class="option" data-value="CZK" role="option"><img src="https://flagcdn.com/w40/cz.png" class="option-flag" alt=""> CZK</div>
+                    <div class="scroll-indicator down"><span class="material-symbols-outlined">keyboard_arrow_down</span></div>
+                  </div>
+                </div>
+                <input type="hidden" id="toCurrency" value="GBP">
+              </div>
+              <div class="input-row">
+                <div class="amount-input-group">
+                  <span id="toSymbol" class="amount-symbol">£</span>
+                  <div id="result" class="result-value" aria-live="polite">0.00</div>
+                </div>
+                <div id="liveRateDisplay" class="rate-info">
+                  1 EUR = <span id="currentRateValue">...</span> GBP
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Execute Button -->
+          <button id="convertBtn" class="primary-action-btn">
+            <span>Convert</span>
+            <span class="material-symbols-outlined fill-icon">bolt</span>
+          </button>
+
+          <!-- Recent Conversions Log -->
+          <section id="conversionHistory" class="history-section hidden">
+              <div class="history-header">
+                  <p class="header-tagline">Recent Conversions</p>
+                  <div class="history-actions">
+                      <button id="exportHistoryBtn" class="btn-history-action">Export CSV</button>
+                      <button id="clearHistoryBtn" class="btn-history-action">Clear History</button>
+                  </div>
+              </div>
+              <div id="historyList" class="history-stack"></div>
+          </section>
+
+          <footer class="footer-nav">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </footer>
+        </div>
+      </section>
+
+      <!-- Page 2: Spending Log -->
+      <section id="logPage" class="page-view main-layout">
+        <div class="bg-decorative">
+          <div class="decorative-bg-image"></div>
+        </div>
+
+        <div class="content-container">
+          <header class="app-header">
+            <p class="header-tagline">Holiday Spending Log</p>
+            <h2 class="app-title">Trip Expenses</h2>
+          </header>
+
+          <!-- Trip Dashboard (Budget Summary) -->
+          <div id="tripDashboard" class="hidden">
+            <div class="glass-card" style="height: auto; margin-bottom: 1.5rem; padding: 1.5rem;">
+              <div class="card-header" style="margin-bottom: 1rem;">
+                <div style="display: flex; flex-direction: column;">
+                  <h3 id="tripNameDisplay" style="margin: 0; font-size: 1.25rem; line-height: 1.2;"></h3>
+                  <span class="label-text" style="margin-top: 0.25rem;">Budget Progress</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span id="tripBudgetPercent" class="header-tagline">0%</span>
+                  <button id="tripMenuBtn" class="btn-history-action" style="padding: 0.25rem; border: none; min-width: auto; line-height: 0;" aria-label="Trip options">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
+                  </button>
+                </div>
+              </div>
+              <div class="budget-progress-container">
+                <div id="tripProgressBar" class="budget-progress-bar" style="width: 0%"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 0.75rem;">
+                <span id="tripSpentText" class="history-meta">Spent: ---</span>
+                <span id="tripRemainingText" class="history-meta">Remaining: ---</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trip Configuration Form (Setup View) -->
+          <div id="tripSetupForm" class="glass-card hidden" style="height: auto; margin-bottom: 2rem;">
+            <div class="card-header">
+              <span class="label-text">Setup New Trip</span>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn-history-action" onclick="toggleTripSetup()" aria-label="Cancel setup">Cancel</button>
+              </div>
+            </div>
+            <div class="contact-form" style="gap: 1rem;">
+              <input type="text" id="setupTripName" class="text-input" placeholder="Trip Name (e.g. Italy 2024)" style="margin-bottom: 0;" aria-label="Trip Name" required>
+              
+              <!-- Home Currency Selector for Trip Setup -->
+              <div class="custom-select" id="setupHomeSelectWrapper">
+                <div class="card-header" style="margin-bottom: 0.5rem; padding: 0;">
+                  <span class="label-text">Home Currency</span>
+                  <button class="select-trigger" id="setupHomeTrigger" aria-haspopup="listbox" aria-label="Select home currency">
+                    <div class="flag-container">
+                      <img src="https://flagcdn.com/w40/gb.png" alt="" class="select-flag">
+                    </div>
+                    <span class="selected-code">GBP</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+                </div>
+                <div class="select-options hidden" role="listbox">
+                  <div class="scroll-indicator up hidden"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+                  <div class="option" data-value="EUR" role="option"><img src="https://flagcdn.com/w40/eu.png" class="option-flag" alt=""> EUR</div>
+                  <div class="option" data-value="GBP" role="option"><img src="https://flagcdn.com/w40/gb.png" class="option-flag" alt=""> GBP</div>
+                  <div class="option" data-value="USD" role="option"><img src="https://flagcdn.com/w40/us.png" class="option-flag" alt=""> USD</div>
+                  <div class="option" data-value="JPY" role="option"><img src="https://flagcdn.com/w40/jp.png" class="option-flag" alt=""> JPY</div>
+                  <div class="option" data-value="CAD" role="option"><img src="https://flagcdn.com/w40/ca.png" class="option-flag" alt=""> CAD</div>
+                  <div class="option" data-value="AUD" role="option"><img src="https://flagcdn.com/w40/au.png" class="option-flag" alt=""> AUD</div>
+                  <div class="option" data-value="CHF" role="option"><img src="https://flagcdn.com/w40/ch.png" class="option-flag" alt=""> CHF</div>
+                  <div class="option" data-value="SEK" role="option"><img src="https://flagcdn.com/w40/se.png" class="option-flag" alt=""> SEK</div>
+                  <div class="option" data-value="NOK" role="option"><img src="https://flagcdn.com/w40/no.png" class="option-flag" alt=""> NOK</div>
+                  <div class="option" data-value="DKK" role="option"><img src="https://flagcdn.com/w40/dk.png" class="option-flag" alt=""> DKK</div>
+                  <div class="option" data-value="PLN" role="option"><img src="https://flagcdn.com/w40/pl.png" class="option-flag" alt=""> PLN</div>
+                  <div class="option" data-value="CZK" role="option"><img src="https://flagcdn.com/w40/cz.png" class="option-flag" alt=""> CZK</div>
+                  <div class="scroll-indicator down"><span class="material-symbols-outlined">keyboard_arrow_down</span></div>
+                </div>
+                <input type="hidden" id="setupHomeCurrency" value="GBP">
+              </div>
+
+              <!-- Destination Currency Selector for Trip Setup -->
+              <div class="custom-select" id="setupDestSelectWrapper">
+                <div class="card-header" style="margin-bottom: 0.5rem; padding: 0;">
+                  <span class="label-text">Trip Currency</span>
+                  <button class="select-trigger" id="setupDestTrigger" aria-haspopup="listbox" aria-label="Select trip currency">
+                    <div class="flag-container">
+                      <img src="https://flagcdn.com/w40/eu.png" alt="" class="select-flag">
+                    </div>
+                    <span class="selected-code">EUR</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+                </div>
+                <div class="select-options hidden" role="listbox">
+                  <div class="scroll-indicator up hidden"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+                  <div class="option" data-value="EUR" role="option"><img src="https://flagcdn.com/w40/eu.png" class="option-flag" alt=""> EUR</div>
+                  <div class="option" data-value="GBP" role="option"><img src="https://flagcdn.com/w40/gb.png" class="option-flag" alt=""> GBP</div>
+                  <div class="option" data-value="USD" role="option"><img src="https://flagcdn.com/w40/us.png" class="option-flag" alt=""> USD</div>
+                  <div class="option" data-value="JPY" role="option"><img src="https://flagcdn.com/w40/jp.png" class="option-flag" alt=""> JPY</div>
+                  <div class="option" data-value="CAD" role="option"><img src="https://flagcdn.com/w40/ca.png" class="option-flag" alt=""> CAD</div>
+                  <div class="option" data-value="AUD" role="option"><img src="https://flagcdn.com/w40/au.png" class="option-flag" alt=""> AUD</div>
+                  <div class="option" data-value="CHF" role="option"><img src="https://flagcdn.com/w40/ch.png" class="option-flag" alt=""> CHF</div>
+                  <div class="option" data-value="SEK" role="option"><img src="https://flagcdn.com/w40/se.png" class="option-flag" alt=""> SEK</div>
+                  <div class="option" data-value="NOK" role="option"><img src="https://flagcdn.com/w40/no.png" class="option-flag" alt=""> NOK</div>
+                  <div class="option" data-value="DKK" role="option"><img src="https://flagcdn.com/w40/dk.png" class="option-flag" alt=""> DKK</div>
+                  <div class="option" data-value="PLN" role="option"><img src="https://flagcdn.com/w40/pl.png" class="option-flag" alt=""> PLN</div>
+                  <div class="option" data-value="CZK" role="option"><img src="https://flagcdn.com/w40/cz.png" class="option-flag" alt=""> CZK</div>
+                  <div class="scroll-indicator down"><span class="material-symbols-outlined">keyboard_arrow_down</span></div>
+                </div>
+                <input type="hidden" id="setupDestCurrency" value="EUR">
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; width: 100%;">
+                <div style="flex: 1; min-width: 0;">
+                  <span class="label-text" style="display: block; margin-bottom: 0.5rem; font-size: 0.65rem;">Start Date</span>
+                  <input type="date" id="setupStartDate" class="text-input" style="margin-bottom: 0; width: 100%; padding-left: 0.5rem; padding-right: 0.5rem;" aria-label="Start Date">
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                  <span class="label-text" style="display: block; margin-bottom: 0.5rem; font-size: 0.65rem;">End Date</span>
+                  <input type="date" id="setupEndDate" class="text-input" style="margin-bottom: 0; width: 100%; padding-left: 0.5rem; padding-right: 0.5rem;" aria-label="End Date">
+                </div>
+              </div>
+
+              <!-- Total Trip Budget Fields -->
+              <div class="budget-input-group">
+                <span class="label-text">Total Trip Budget</span>
+                <div class="input-pair">
+                  <div class="amount-input-group">
+                    <span id="setupTripBudgetHomeSymbol" class="amount-symbol">£</span>
+                    <input type="number" id="setupTripBudgetHome" class="text-input budget-input" placeholder="Home" aria-label="Total Trip Budget in Home Currency">
+                  </div>
+                  <div class="amount-input-group">
+                    <span id="setupTripBudgetDestSymbol" class="amount-symbol">€</span>
+                    <input type="number" id="setupTripBudgetDest" class="text-input budget-input" placeholder="Trip" aria-label="Total Trip Budget in Trip Currency">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Daily Limit Fields -->
+              <div class="budget-input-group">
+                <span class="label-text">Daily Limit</span>
+                <div class="input-pair">
+                  <div class="amount-input-group">
+                    <span id="setupDailyBudgetHomeSymbol" class="amount-symbol">£</span>
+                    <input type="number" id="setupDailyBudgetHome" class="text-input budget-input" placeholder="Home" aria-label="Daily Limit in Home Currency">
+                  </div>
+                  <div class="amount-input-group">
+                    <span id="setupDailyBudgetDestSymbol" class="amount-symbol">€</span>
+                    <input type="number" id="setupDailyBudgetDest" class="text-input budget-input" placeholder="Trip" aria-label="Daily Limit in Trip Currency">
+                  </div>
+                </div>
+              </div>
+              <button class="primary-action-btn" onclick="saveTripConfig()" style="padding: 1rem;">
+                Save Trip Settings
+              </button>
+            </div>
+          </div>
+
+          <div id="tripLogContainer" class="trip-log-stack">
+            <!-- Day Cards are dynamically injected here -->
+            <div class="glass-card empty-state">
+              <p style="text-align: center; color: var(--white-60);">No expenses logged yet.<br>Add some from your conversion history!</p>
+              <button class="primary-action-btn" onclick="toggleTripSetup()" style="margin-top: 1.5rem; padding: 1rem;">
+                Configure Trip
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 3: Past Trips Archive -->
+      <section id="archivePage" class="page-view main-layout">
+        <div class="bg-decorative">
+          <div class="decorative-bg-image"></div>
+        </div>
+        <div class="content-container">
+          <header class="app-header">
+            <p class="header-tagline">Travel Vault</p>
+            <h2 class="app-title">Past Trips</h2>
+          </header>
           
-          <!-- Loading Indicator -->
-          <div id="loadingIndicator" class="hidden">
-            <span class="loader loader-small"></span> Updating rates...
-          </div>
-        </section>
-
-        <!-- Converter Bento Stack -->
-        <div class="converter-stack">
-          <!-- Sell Card -->
-          <div class="glass-card">
-            <div class="card-header">
-              <span class="label-text">From Amount</span>
-              <div class="custom-select" id="fromSelectWrapper">
-                <button class="select-trigger" id="fromTrigger">
-                  <div class="flag-container">
-                    <img src="https://flagcdn.com/w40/eu.png" alt="" class="select-flag">
-                  </div>
-                  <span class="selected-code">EUR</span>
-                  <span class="material-symbols-outlined">expand_more</span>
-                </button>
-                <div class="select-options hidden">
-                  <div class="option" data-value="EUR"><img src="https://flagcdn.com/w40/eu.png" class="option-flag"> EUR</div>
-                  <div class="option" data-value="GBP"><img src="https://flagcdn.com/w40/gb.png" class="option-flag"> GBP</div>
-                  <div class="option" data-value="USD"><img src="https://flagcdn.com/w40/us.png" class="option-flag"> USD</div>
-                  <div class="option" data-value="JPY"><img src="https://flagcdn.com/w40/jp.png" class="option-flag"> JPY</div>
-                  <div class="option" data-value="CAD"><img src="https://flagcdn.com/w40/ca.png" class="option-flag"> CAD</div>
-                  <div class="option" data-value="AUD"><img src="https://flagcdn.com/w40/au.png" class="option-flag"> AUD</div>
-                  <div class="option" data-value="CHF"><img src="https://flagcdn.com/w40/ch.png" class="option-flag"> CHF</div>
-                  <div class="option" data-value="SEK"><img src="https://flagcdn.com/w40/se.png" class="option-flag"> SEK</div>
-                  <div class="option" data-value="NOK"><img src="https://flagcdn.com/w40/no.png" class="option-flag"> NOK</div>
-                  <div class="option" data-value="DKK"><img src="https://flagcdn.com/w40/dk.png" class="option-flag"> DKK</div>
-                  <div class="option" data-value="PLN"><img src="https://flagcdn.com/w40/pl.png" class="option-flag"> PLN</div>
-                  <div class="option" data-value="CZK"><img src="https://flagcdn.com/w40/cz.png" class="option-flag"> CZK</div>
-                </div>
-              </div>
-              <!-- Hidden input to store value for existing script logic -->
-              <input type="hidden" id="fromCurrency" value="EUR">
-            </div>
-            <div class="input-row">
-              <div class="amount-input-group">
-                <span id="fromSymbol" class="amount-symbol">€</span>
-                <input class="amount-field" type="number" id="amount" value="1.00" step="0.01" inputmode="decimal"/>
-              </div>
-            </div>
-          </div>
-
-          <!-- Swap Action -->
-          <div class="swap-container">
-            <button id="swapBtn" class="btn-swap">
-              <span class="material-symbols-outlined font-bold">swap_vert</span>
-            </button>
-          </div>
-
-          <!-- Buy Card -->
-          <div class="glass-card">
-            <div class="card-header">
-              <span class="label-text">To Amount</span>
-              <div class="custom-select" id="toSelectWrapper">
-                <button class="select-trigger" id="toTrigger">
-                  <div class="flag-container">
-                    <img src="https://flagcdn.com/w40/gb.png" alt="" class="select-flag">
-                  </div>
-                  <span class="selected-code">GBP</span>
-                  <span class="material-symbols-outlined">expand_more</span>
-                </button>
-                <div class="select-options hidden">
-                  <div class="option" data-value="EUR"><img src="https://flagcdn.com/w40/eu.png" class="option-flag"> EUR</div>
-                  <div class="option" data-value="GBP"><img src="https://flagcdn.com/w40/gb.png" class="option-flag"> GBP</div>
-                  <div class="option" data-value="USD"><img src="https://flagcdn.com/w40/us.png" class="option-flag"> USD</div>
-                  <div class="option" data-value="JPY"><img src="https://flagcdn.com/w40/jp.png" class="option-flag"> JPY</div>
-                  <div class="option" data-value="CAD"><img src="https://flagcdn.com/w40/ca.png" class="option-flag"> CAD</div>
-                  <div class="option" data-value="AUD"><img src="https://flagcdn.com/w40/au.png" class="option-flag"> AUD</div>
-                  <div class="option" data-value="CHF"><img src="https://flagcdn.com/w40/ch.png" class="option-flag"> CHF</div>
-                  <div class="option" data-value="SEK"><img src="https://flagcdn.com/w40/se.png" class="option-flag"> SEK</div>
-                  <div class="option" data-value="NOK"><img src="https://flagcdn.com/w40/no.png" class="option-flag"> NOK</div>
-                  <div class="option" data-value="DKK"><img src="https://flagcdn.com/w40/dk.png" class="option-flag"> DKK</div>
-                  <div class="option" data-value="PLN"><img src="https://flagcdn.com/w40/pl.png" class="option-flag"> PLN</div>
-                  <div class="option" data-value="CZK"><img src="https://flagcdn.com/w40/cz.png" class="option-flag"> CZK</div>
-                </div>
-              </div>
-              <!-- Hidden input to store value for existing script logic -->
-              <input type="hidden" id="toCurrency" value="GBP">
-            </div>
-            <div class="input-row">
-              <div class="amount-input-group">
-                <span id="toSymbol" class="amount-symbol">£</span>
-                <div id="result" class="result-value">0.00</div>
-              </div>
-              <div id="liveRateDisplay" class="rate-info">
-                1 EUR = <span id="currentRateValue">...</span> GBP
-              </div>
-            </div>
+          <div id="archiveList" class="trip-log-stack">
+            <!-- Archived trips injected here -->
           </div>
         </div>
-
-        <!-- Execute Button -->
-        <button id="convertBtn" class="primary-action-btn">
-          <span>Convert</span>
-          <span class="material-symbols-outlined fill-icon">bolt</span>
-        </button>
-
-        <!-- Recent Conversions Log -->
-        <section id="conversionHistory" class="history-section hidden">
-            <div class="history-header">
-                <p class="header-tagline">Recent Conversions</p>
-                <div class="history-actions">
-                    <button id="exportHistoryBtn" class="btn-history-action">Export CSV</button>
-                    <button id="clearHistoryBtn" class="btn-history-action">Clear History</button>
-                </div>
-            </div>
-            <div id="historyList" class="history-stack"></div>
-        </section>
-
-        <!-- Message Box -->
-        <div id="messageBox" class="message-box hidden" role="alert">
-          <span id="messageText" class="message-text-style"></span>
-          <button class="btn-close-msg btn-close-msg-style">&times;</button>
-        </div>
-
-        <!-- Footer Links -->
-        <div class="footer-nav">
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
+      </section>
     </main>
+
+    <!-- Message Box (Fixed to viewport) -->
+    <div id="messageBox" class="message-box hidden" role="alert">
+      <span id="messageText" class="message-text-style"></span>
+      <button class="btn-close-msg btn-close-msg-style" aria-label="Close message">&times;</button>
+    </div>
+
+    <!-- Trip Actions Bottom Sheet -->
+    <div id="tripActionsSheet" class="confirm-sheet">
+      <div class="sheet-handle"></div>
+      <h3 id="tripActionsTitle">Trip Options</h3>
+      <p>Manage your current journey and settings.</p>
+      <div class="confirm-actions">
+        <button id="editTripBtn" class="primary-action-btn" style="background-color: var(--white-10); color: white; box-shadow: none;">Edit Trip Details</button>
+        <button id="finishTripBtn" class="primary-action-btn btn-confirm-delete">Finish Trip & Archive</button>
+        <button id="deleteTripBtn" class="btn-history-action" style="padding: 1rem; font-size: 1rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Delete Trip Permanently</button>
+        <button id="cancelTripActionsBtn" class="btn-history-action" style="padding: 1rem; font-size: 1rem;">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Confirmation Bottom Sheet -->
+    <div id="confirmOverlay" class="confirm-overlay"></div>
+    <div id="confirmSheet" class="confirm-sheet">
+      <div class="sheet-handle"></div>
+      <h3 id="confirmTitle">Delete Expense?</h3>
+      <p>This entry will be permanently removed from your log.</p>
+      <div class="confirm-actions">
+        <button id="confirmDeleteBtn" class="primary-action-btn btn-confirm-delete">Delete</button>
+        <button id="cancelDeleteBtn" class="btn-history-action" style="padding: 1rem; font-size: 1rem;">Cancel</button>
+      </div>
+    </div>
+
     <script src="script.js" defer></script>
   </body>
 </html>
