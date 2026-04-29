@@ -48,7 +48,6 @@ body {
 .app-container {
     display: flex;
     width: 300%;
-    width: 200%;
     height: 100%;
     transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     will-change: transform;
@@ -56,7 +55,6 @@ body {
 
 .app-container.show-log {
     transform: translateX(-33.333%);
-    transform: translateX(-50%);
 }
 
 .app-container.show-archive {
@@ -65,7 +63,6 @@ body {
 
 .page-view {
     width: 33.333%;
-    width: 50%;
     height: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
